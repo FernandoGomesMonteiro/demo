@@ -1,224 +1,286 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
 import { 
-  Target, Zap, Shield, Users, 
-  ArrowRight, Brain, Globe, Heart, 
-  Code2, Rocket, Play
+  Building2, TrendingUp, ArrowRight, 
+  Server, ShieldCheck, MapPin, Users, MousePointer2
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
+// --- CONFIGURAÇÃO ---
+const BRAZIL_GEO_URL = "/brazil.json";
 
-// --- DADOS DA JORNADA (COMO FUNCIONA) ---
-const journeySteps = [
-  {
-    id: 1,
-    title: "Conexão Profunda",
-    desc: "Tudo começa com a integração. Nossa tecnologia se conecta via API aos ERPs e Bancos que você já usa. Sem migração de dados, sem dor de cabeça.",
-    icon: Code2,
-    color: "text-blue-500",
-    bg: "bg-blue-500/10"
+const markers = [
+  { 
+    id: 1, 
+    name: "São Paulo (HQ)", 
+    coordinates: [-46.6333, -23.5505], 
+    stats: { clientes: "85+", valor: "R$ 22M" }, 
+    desc: "Matriz tecnológica." 
   },
-  {
-    id: 2,
-    title: "Inteligência de Dados",
-    desc: "Nossa IA analisa o perfil de cada unidade. Identificamos padrões de pagamento e classificamos o risco em tempo real.",
-    icon: Brain,
-    color: "text-purple-500",
-    bg: "bg-purple-500/10"
+  { 
+    id: 2, 
+    name: "Rio de Janeiro", 
+    coordinates: [-43.1729, -22.9068], 
+    stats: { clientes: "40+", valor: "R$ 12M" }, 
+    desc: "Operação comercial." 
   },
-  {
-    id: 3,
-    title: "Ação Automatizada",
-    desc: "Robôs executam a cobrança ou a antecipação de receita. O dinheiro chega na conta certa, o boleto é baixado e o condômino é notificado.",
-    icon: Zap,
-    color: "text-yellow-500",
-    bg: "bg-yellow-500/10"
+  { 
+    id: 3, 
+    name: "Curitiba", 
+    coordinates: [-49.2733, -25.4284], 
+    stats: { clientes: "35+", valor: "R$ 8M" }, 
+    desc: "Hub de inovação." 
   },
-  {
-    id: 4,
-    title: "Transparência Total",
-    desc: "Gestores e síndicos acompanham tudo por dashboards vivos. Relatórios são gerados em um clique para a prestação de contas.",
-    icon: Globe,
-    color: "text-green-500",
-    bg: "bg-green-500/10"
+  { 
+    id: 4, 
+    name: "Recife", 
+    coordinates: [-34.8770, -8.0476], 
+    stats: { clientes: "20+", valor: "R$ 5M" }, 
+    desc: "Expansão Nordeste." 
+  },
+  { 
+    id: 5, 
+    name: "Brasília", 
+    coordinates: [-47.8919, -15.7975], 
+    stats: { clientes: "15+", valor: "R$ 3M" }, 
+    desc: "Foco governamental." 
   }
 ];
 
-// --- DADOS DOS VALORES (DNA) ---
-const values = [
-  { title: "Tecnologia Humanizada", desc: "Código complexo, uso simples. Fazemos o difícil parecer fácil.", icon: Heart, size: "col-span-1 md:col-span-2" },
-  { title: "Segurança Obsessiva", desc: "Tratamos dados financeiros. Falhar não é uma opção.", icon: Shield, size: "col-span-1" },
-  { title: "Inovação Constante", desc: "O que é bom hoje, amanhã será obsoleto. Evoluímos sempre.", icon: Rocket, size: "col-span-1" },
-  { title: "Parceria Real", desc: "Não somos fornecedores, somos a extensão técnica do seu time.", icon: Users, size: "col-span-1 md:col-span-2" },
-];
-
 function About() {
-  const [activeStep, setActiveStep] = useState(0);
-
-  // Efeito simples para simular ativação conforme scroll (pode ser refinado com IntersectionObserver)
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 2;
-      // Lógica simples baseada em altura fixa (para demonstração)
-      if (scrollPosition > 800) setActiveStep(1);
-      if (scrollPosition > 1200) setActiveStep(2);
-      if (scrollPosition > 1600) setActiveStep(3);
-      if (scrollPosition > 2000) setActiveStep(4);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const [activeMarker, setActiveMarker] = useState<number | null>(null);
+  const currentLoc = markers.find(m => m.id === activeMarker);
 
   return (
-    <div className="text-brand-text antialiased font-sans selection:bg-brand-primary">
+    <div className="text-brand-text antialiased font-sans selection:bg-brand-primary pt-32 pb-20 transition-colors duration-500">
       
       {/* Texture Noise */}
       <div className="bg-noise"></div>
 
-      {/* Background Dinâmico */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[1000px] h-[1000px] bg-brand-primary/10 rounded-full blur-[150px] opacity-40"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-brand-secondary/10 rounded-full blur-[150px] opacity-40"></div>
-      </div>
+      {/* --- SOLUÇÃO DO DARK MODE ---
+          Injetamos o CSS aqui dentro para garantir que as variáveis existam.
+          Quando o HTML ganhar a classe 'dark', as cores mudam automaticamente.
+      */}
+      <style>{`
+        /* Cores Padrão (Light Mode) */
+        :root {
+          --map-fill: #e2e8f0;       /* Slate 200 */
+          --map-stroke: #cbd5e1;     /* Slate 300 */
+          --map-hover-fill: #ede9fe; /* Roxo muito claro */
+          --map-hover-stroke: #7c3aed; /* Roxo Brand */
+          
+          --pin-color: #7c3aed;      /* Roxo Brand */
+          --pin-bg: #ffffff;         /* Branco */
+          --pin-text: #1e293b;       /* Slate 800 */
+        }
 
+        /* Cores Dark Mode (Ativa quando classe .dark existe no HTML) */
+        .dark {
+          --map-fill: rgba(30, 41, 59, 0.4);   /* Slate 800 Transparente */
+          --map-stroke: rgba(148, 163, 184, 0.2); /* Linhas finas */
+          --map-hover-fill: rgba(124, 58, 237, 0.15); /* Glow Roxo */
+          --map-hover-stroke: #a78bfa; /* Roxo Claro */
+          
+          --pin-color: #a78bfa;      /* Roxo Neon */
+          --pin-bg: #1e293b;         /* Slate 800 */
+          --pin-text: #ffffff;       /* Branco */
+        }
+      `}</style>
+      
+      
 
-      <main className="pt-32 pb-20">
+      <main className="container mx-auto px-6">
 
-        {/* --- 1. HERO MANIFESTO --- */}
-        <section className="container mx-auto px-6 mb-32 relative">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-text/5 border border-brand-text/10 text-brand-muted text-xs font-bold uppercase tracking-widest mb-4">
-              Sobre a Vouch
+        {/* --- HERO SECTION --- */}
+        <section className="mb-8 text-center">
+          <div className="max-w-5xl mx-auto space-y-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-sm font-bold uppercase tracking-widest animate-fade-in">
+              <span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse"></span>
+              Atuação Nacional
             </div>
             
-            <h1 className="font-heading text-5xl md:text-7xl font-bold text-brand-text leading-tight tracking-tight">
-              Não somos apenas software. <br/>
-              Somos o novo <span className="text-gradient">padrão</span>.
+            <h1 className="font-heading text-5xl md:text-7xl font-black text-brand-text leading-[1] tracking-tighter animate-fade-in-up">
+              Conectando o Brasil <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-primary bg-300% animate-gradient">
+                de ponta a ponta.
+              </span>
             </h1>
-            
-            <p className="text-xl md:text-2xl text-brand-muted leading-relaxed font-light">
-              Nascemos da inconformidade com processos manuais e sistemas lentos. 
-              Viemos para dar superpoderes às Garantidoras de Condomínio através de tecnologia invisível e eficiente.
-            </p>
-          </div>
-
-          {/* Vídeo / Imagem Institucional */}
-          <div className="mt-20 relative w-full aspect-video rounded-[2rem] overflow-hidden border border-brand-text/10 shadow-2xl group">
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-10"></div>
-            <img 
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
-              alt="Equipe Vouch" 
-              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 z-20 flex items-center justify-center">
-              <button className="w-20 h-20 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110 group-hover:bg-brand-primary group-hover:border-brand-primary">
-                <Play size={32} className="fill-current ml-1" />
-              </button>
-            </div>
           </div>
         </section>
 
-        {/* --- 2. JORNADA INTERATIVA (How it Works) --- */}
-        <section className="py-24 relative">
-          <div className="container mx-auto px-6">
-            <div className="flex flex-col md:flex-row gap-16">
-              
-              {/* Lado Esquerdo: Título Sticky */}
-              <div className="md:w-1/3">
-                <div className="sticky top-32">
-                  <h2 className="font-heading text-4xl font-bold text-brand-text mb-6">
-                    Como a mágica <br/> <span className="text-brand-primary">acontece?</span>
-                  </h2>
-                  <p className="text-brand-muted text-lg mb-8">
-                    Transformamos burocracia em código. Veja como nossa tecnologia atua nos bastidores da sua operação.
-                  </p>
-                  <Link to="/funcionalidades" className="text-brand-primary font-bold hover:text-brand-secondary flex items-center gap-2">
-                    Ver detalhes técnicos <ArrowRight size={18}/>
-                  </Link>
-                </div>
-              </div>
+        {/* --- MAPA INTERATIVO --- */}
+        <section className="flex justify-center relative perspective-1000 mb-20">
+          
+          <div className="w-full max-w-4xl relative h-[550px] md:h-[650px] flex items-center justify-center">
+            
+            <ComposableMap
+              projection="geoMercator"
+              projectionConfig={{
+                scale: 850,
+                center: [-52, -15] 
+              }}
+              style={{ width: "100%", height: "100%" }}
+            >
+              {/* DESENHO DOS ESTADOS */}
+              <Geographies geography={BRAZIL_GEO_URL}>
+                {({ geographies }) =>
+                  geographies.map((geo) => (
+                    <Geography
+                      key={geo.rsmKey}
+                      geography={geo}
+                      style={{
+                        default: {
+                          fill: "var(--map-fill)", 
+                          stroke: "var(--map-stroke)",
+                          strokeWidth: 0.75,
+                          outline: "none",
+                          transition: "all 0.5s ease"
+                        },
+                        hover: {
+                          fill: "var(--map-hover-fill)", 
+                          stroke: "var(--map-hover-stroke)",
+                          strokeWidth: 1,
+                          outline: "none",
+                          cursor: "pointer",
+                          transition: "all 0.3s ease",
+                        },
+                        pressed: {
+                          fill: "var(--map-stroke)",
+                          outline: "none",
+                        },
+                      }}
+                    />
+                  ))
+                }
+              </Geographies>
 
-              {/* Lado Direito: Linha do Tempo */}
-              <div className="md:w-2/3 relative pl-8 md:pl-16">
-                {/* Linha Vertical Conectora */}
-                <div className="absolute left-0 md:left-8 top-0 bottom-0 w-1 bg-brand-text/5 rounded-full">
-                  <div 
-                    className="absolute top-0 left-0 w-full bg-gradient-to-b from-brand-primary to-brand-secondary rounded-full transition-all duration-500"
-                    style={{ height: `${(activeStep / 4) * 100}%` }}
-                  ></div>
-                </div>
-
-                <div className="space-y-24">
-                  {journeySteps.map((step, index) => (
-                    <div 
-                      key={step.id} 
-                      className="relative group"
-                      onMouseEnter={() => setActiveStep(index + 1)}
+              {/* MARCADORES (PONTOS) */}
+              {markers.map((marker) => {
+                const isActive = activeMarker === marker.id;
+                return (
+                  <Marker 
+                    key={marker.id} 
+                    coordinates={marker.coordinates as [number, number]}
+                    onMouseEnter={() => setActiveMarker(marker.id)}
+                    onClick={() => setActiveMarker(isActive ? null : marker.id)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <g transform="translate(-12, -24)">
+                      {/* Ícone do Pino */}
+                      <path 
+                        d="M12 0C7.58 0 4 3.58 4 8c0 5.25 8 13 8 13s8-7.75 8-13c0-4.42-3.58-8-8-8zm0 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"
+                        fill={isActive ? "var(--pin-bg)" : "var(--pin-color)"} 
+                        stroke={isActive ? "var(--pin-color)" : "var(--map-fill)"}
+                        strokeWidth="1.5"
+                        className="transition-all duration-300 drop-shadow-xl"
+                        style={{ 
+                          transform: isActive ? "scale(1.3) translateY(-4px)" : "scale(1)", 
+                          transformOrigin: "center bottom" 
+                        }}
+                      />
+                    </g>
+                    
+                    {/* Nome da Cidade */}
+                    <text
+                      textAnchor="middle"
+                      y={40}
+                      style={{ 
+                        fontFamily: "system-ui", 
+                        fill: "var(--pin-text)", 
+                        fontSize: "12px",
+                        fontWeight: "700",
+                        textShadow: "0px 2px 4px rgba(0,0,0,0.2)",
+                        opacity: isActive ? 0 : 0.9,
+                        pointerEvents: "none",
+                        transition: "all 0.3s"
+                      }}
                     >
-                      {/* Bolinha na Linha */}
-                      <div className={`absolute -left-[39px] md:-left-[71px] top-0 w-5 h-5 rounded-full border-4 border-brand-bg transition-colors duration-500 z-10
-                        ${activeStep >= index + 1 ? 'bg-brand-primary' : 'bg-brand-text/20'}
-                      `}></div>
+                      {marker.name.split(" ")[0]}
+                    </text>
+                  </Marker>
+                )
+              })}
+            </ComposableMap>
 
-                      <div className="glass-card p-8 rounded-3xl hover:border-brand-primary/30 transition-all duration-500 group-hover:-translate-y-2">
-                        <div className={`w-14 h-14 rounded-2xl ${step.bg} flex items-center justify-center ${step.color} mb-6 shadow-inner`}>
-                          <step.icon size={28} />
+            {/* --- CARD DE DETALHES --- */}
+            {activeMarker && currentLoc && (
+              <div className="absolute bottom-4 right-4 md:bottom-12 md:right-12 z-30 w-72 md:w-80 animate-fade-in-up">
+                <div className="glass-card p-6 rounded-2xl border border-brand-text/10 shadow-2xl relative overflow-hidden backdrop-blur-xl bg-brand-bg/90 transition-all duration-300">
+                  
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); setActiveMarker(null); }}
+                    className="absolute top-4 right-4 text-brand-muted hover:text-brand-text transition-colors bg-brand-text/5 hover:bg-brand-text/10 rounded-full p-1"
+                  >
+                    <ArrowRight size={16} className="rotate-45" />
+                  </button>
+
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center text-white shadow-lg shadow-brand-primary/20">
+                        <MapPin size={20} />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-brand-text leading-none mb-1">{currentLoc.name}</h3>
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                          <p className="text-[10px] text-brand-muted font-bold uppercase tracking-wider">Operação Ativa</p>
                         </div>
-                        <h3 className="text-2xl font-bold text-brand-text mb-3">{step.title}</h3>
-                        <p className="text-brand-muted leading-relaxed">
-                          {step.desc}
-                        </p>
                       </div>
                     </div>
-                  ))}
+
+                    <p className="text-sm text-brand-muted mb-6 leading-relaxed border-l-2 border-brand-primary/30 pl-3">
+                      {currentLoc.desc}
+                    </p>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="bg-brand-text/5 p-3 rounded-xl border border-brand-text/5 transition-colors">
+                        <div className="flex items-center gap-1.5 text-brand-muted text-[10px] uppercase font-bold mb-1">
+                          <Users size={12} /> Carteira
+                        </div>
+                        <p className="text-lg font-bold text-brand-text">{currentLoc.stats.clientes}</p>
+                      </div>
+                      <div className="bg-brand-text/5 p-3 rounded-xl border border-brand-text/5 transition-colors">
+                        <div className="flex items-center gap-1.5 text-brand-muted text-[10px] uppercase font-bold mb-1">
+                          <TrendingUp size={12} /> Volume
+                        </div>
+                        <p className="text-lg font-bold text-brand-text">{currentLoc.stats.valor}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+            )}
 
-            </div>
+            {/* Hint de UX */}
+            {!activeMarker && (
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 animate-bounce pointer-events-none opacity-60">
+                <MousePointer2 size={16} className="text-brand-primary" />
+                <span className="text-[10px] uppercase tracking-widest text-brand-muted font-bold bg-brand-bg/50 px-3 py-1 rounded-full backdrop-blur-md border border-brand-text/5">
+                  Explore o mapa
+                </span>
+              </div>
+            )}
+
           </div>
         </section>
 
-        {/* --- 3. DNA / VALORES (Bento Grid) --- */}
-        <section className="py-24 bg-brand-text/5 relative">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="font-heading text-4xl font-bold text-brand-text mb-4">Nosso DNA</h2>
-              <p className="text-brand-muted max-w-2xl mx-auto">
-                Princípios inegociáveis que guiam cada linha de código que escrevemos.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {values.map((val, idx) => (
-                <div 
-                  key={idx} 
-                  className={`${val.size} glass-card p-8 rounded-[2rem] flex flex-col justify-between hover:bg-brand-bg hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 group`}
-                >
-                  <div className="mb-6">
-                    <div className="w-12 h-12 rounded-full bg-brand-text/5 flex items-center justify-center text-brand-text group-hover:bg-brand-primary group-hover:text-white transition-colors mb-4">
-                      <val.icon size={24} />
-                    </div>
-                    <h3 className="text-xl font-bold text-brand-text mb-2">{val.title}</h3>
-                    <p className="text-sm text-brand-muted group-hover:text-brand-text/80 transition-colors">{val.desc}</p>
+        {/* --- DADOS DE CONFIANÇA --- */}
+        <section className="py-20 bg-brand-text/5 relative -mx-6 px-6">
+          <div className="container mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              {[
+                { icon: Server, val: "99.9%", label: "Uptime Garantido" },
+                { icon: ShieldCheck, val: "ISO 27001", label: "Segurança de Dados" },
+                { icon: Building2, val: "24/7", label: "Suporte Especializado" },
+              ].map((item, i) => (
+                <div key={i} className="group cursor-default">
+                  <div className="w-14 h-14 mx-auto bg-brand-primary/10 rounded-2xl flex items-center justify-center text-brand-primary mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <item.icon size={28} />
                   </div>
-                  <div className="w-8 h-1 bg-brand-text/10 rounded-full group-hover:w-full group-hover:bg-brand-primary transition-all duration-500"></div>
+                  <h3 className="text-4xl font-bold text-brand-text mb-2 group-hover:text-brand-primary transition-colors">{item.val}</h3>
+                  <p className="text-brand-muted text-sm uppercase tracking-wider font-bold">{item.label}</p>
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* --- 4. CTA FOOTER --- */}
-        <section className="pt-32 container mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-brand-text mb-8">
-            Faça parte da revolução
-          </h2>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link to="/carreiras" className="px-8 py-4 rounded-xl border border-brand-text/10 text-brand-text font-bold hover:bg-brand-text/5 transition-all">
-              Ver Vagas Abertas
-            </Link>
-            <a href="https://wa.me/5511999999999" className="px-8 py-4 rounded-xl bg-brand-primary text-white font-bold hover:bg-brand-secondary transition-all shadow-lg hover:shadow-brand-primary/30">
-              Falar com Comercial
-            </a>
           </div>
         </section>
 
