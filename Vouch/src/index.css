@@ -6,39 +6,51 @@
 
 @layer base {
   :root {
-    /* --- MODO ESCURO (RGB Puros) --- */
-    /* Slate 950 */
-    --color-bg: 2 6 23;
-    /* Slate 200 */
-    --color-text: 226 232 240;
-    /* Slate 400 */
-    --color-muted: 148 163 184;
-    /* Violet 600 */
-    --color-primary: 124 58 237;
-    /* Fuchsia 500 */
-    --color-secondary: 217 70 239;
+    /* --- MODO ESCURO (Padrão no seu projeto) --- */
     
-    /* Gradientes */
+    /* Cores Base do Site (RGB Puros) */
+    --color-bg: 2 6 23;        /* Slate 950 */
+    --color-text: 226 232 240; /* Slate 200 */
+    --color-muted: 148 163 184;/* Slate 400 */
+    --color-primary: 124 58 237; /* Violet 600 */
+    --color-secondary: 217 70 239; /* Fuchsia 500 */
+    
     --grad-start: 25 15 50;
     --grad-end: 2 6 23;
+
+    /* --- VARIAVEIS DO MAPA (DARK MODE) --- */
+    --map-fill: #1e293b;        /* Slate 800 */
+    --map-stroke: #334155;      /* Slate 700 */
+    --map-active: #a78bfa;      /* Roxo Neon */
+    --map-glow: rgba(167, 139, 250, 0.5); /* Glow Neon */
+    
+    --card-bg: rgba(15, 23, 42, 0.6); /* Vidro Escuro */
+    --card-border: rgba(255, 255, 255, 0.1);
+    --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   }
 
   .light-mode {
-    /* --- MODO CLARO (RGB Puros) --- */
-    /* Branco */
-    --color-bg: 255 255 255;
-    /* Slate 900 */
-    --color-text: 15 23 42;
-    /* Slate 600 */
-    --color-muted: 71 85 105;
-    /* Blue 600 */
-    --color-primary: 37 99 235;
-    /* Purple 600 */
-    --color-secondary: 147 51 234;
+    /* --- MODO CLARO (Ativado via classe) --- */
+    
+    /* Cores Base do Site (RGB Puros) */
+    --color-bg: 255 255 255;   /* Branco */
+    --color-text: 15 23 42;    /* Slate 900 */
+    --color-muted: 71 85 105;  /* Slate 600 */
+    --color-primary: 37 99 235; /* Blue 600 */
+    --color-secondary: 147 51 234; /* Purple 600 */
 
-    /* Gradientes Light */
     --grad-start: 255 255 255;
     --grad-end: 219 234 254;
+
+    /* --- VARIAVEIS DO MAPA (LIGHT MODE) --- */
+    --map-fill: #e2e8f0;        /* Slate 200 */
+    --map-stroke: #cbd5e1;      /* Slate 300 */
+    --map-active: #7c3aed;      /* Roxo Brand */
+    --map-glow: rgba(124, 58, 237, 0); /* Sem brilho no claro */
+    
+    --card-bg: rgba(255, 255, 255, 0.7);
+    --card-border: rgba(0, 0, 0, 0.05);
+    --card-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -66,4 +78,12 @@ body {
     color: transparent;
   }
 }
-/* --- CORES DO MAPA (AUTOMÁTICO) --- */
+
+/* Animação da barra de progresso do Mapa */
+@keyframes progress-bar {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+.animate-progress-bar {
+  animation: progress-bar 5s linear infinite;
+}

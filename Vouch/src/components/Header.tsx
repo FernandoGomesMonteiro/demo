@@ -69,6 +69,7 @@ function Header() {
         <nav className="hidden lg:flex gap-10 items-center bg-brand-bg/60 px-12 py-4 rounded-full border border-brand-text/5 backdrop-blur-md shadow-md transition-all hover:border-brand-text/10 hover:shadow-xl hover:bg-brand-bg/80">
           {[
             { name: 'Home', path: '/' },
+            { name: 'Home2', path: '/home2' },
             { name: 'Serviços', path: '/servicos' },
             { name: 'Sistema', path: '/funcionalidades' },
             { name: 'Integrações', path: '/integracoes' },

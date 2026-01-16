@@ -1,288 +1,244 @@
-import { useState } from 'react';
-import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
+import { useState, useEffect } from 'react';
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { 
-  Building2, TrendingUp, ArrowRight, 
-  Server, ShieldCheck, MapPin, Users, MousePointer2
+  Building2, TrendingUp, Users, MapPin, 
+  ArrowRight, Pause, Play, BarChart3 
 } from 'lucide-react';
 
 // --- CONFIGURAÇÃO ---
 const BRAZIL_GEO_URL = "/brazil.json";
 
-const markers = [
+// DADOS (ID deve bater com a sigla do estado no JSON)
+const locations = [
   { 
-    id: 1, 
-    name: "São Paulo (HQ)", 
-    coordinates: [-46.6333, -23.5505], 
+    id: "SP", 
+    name: "São Paulo", 
+    type: "Headquarters",
     stats: { clientes: "85+", valor: "R$ 22M" }, 
-    desc: "Matriz tecnológica." 
+    desc: "Nossa matriz tecnológica. Onde o core da Vouch é desenvolvido." 
   },
   { 
-    id: 2, 
-    name: "Rio de Janeiro", 
-    coordinates: [-43.1729, -22.9068], 
-    stats: { clientes: "40+", valor: "R$ 12M" }, 
-    desc: "Operação comercial." 
-  },
-  { 
-    id: 3, 
-    name: "Curitiba", 
-    coordinates: [-49.2733, -25.4284], 
+    id: "PR", 
+    name: "Paraná", 
+    type: "Inovação",
     stats: { clientes: "35+", valor: "R$ 8M" }, 
-    desc: "Hub de inovação." 
+    desc: "Berço de novas features e laboratório de testes." 
   },
   { 
-    id: 4, 
-    name: "Recife", 
-    coordinates: [-34.8770, -8.0476], 
+    id: "RJ", 
+    name: "Rio de Janeiro", 
+    type: "Comercial",
+    stats: { clientes: "40+", valor: "R$ 12M" }, 
+    desc: "Operação estratégica focada na zona sul." 
+  },
+  { 
+    id: "PE", 
+    name: "Pernambuco", 
+    type: "Expansão NE",
     stats: { clientes: "20+", valor: "R$ 5M" }, 
-    desc: "Expansão Nordeste." 
+    desc: "A região que mais cresce em garantidoras digitais." 
   },
   { 
-    id: 5, 
-    name: "Brasília", 
-    coordinates: [-47.8919, -15.7975], 
+    id: "DF", 
+    name: "Distrito Federal", 
+    type: "Governo",
     stats: { clientes: "15+", valor: "R$ 3M" }, 
-    desc: "Foco governamental." 
+    desc: "Foco em condomínios de alto padrão e associações." 
   }
 ];
 
 function About() {
-  const [activeMarker, setActiveMarker] = useState<number | null>(null);
-  const currentLoc = markers.find(m => m.id === activeMarker);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  
+  const currentLocation = locations[activeIndex];
+
+  // --- CONTROLE DO CARROSSEL ---
+  useEffect(() => {
+    let interval: any;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setActiveIndex((current) => (current + 1) % locations.length);
+      }, 5000); 
+    }
+    return () => clearInterval(interval);
+  }, [isPlaying]);
 
   return (
-    <div className="text-brand-text antialiased font-sans selection:bg-brand-primary pt-32 pb-20 transition-colors duration-500">
+    <div className="text-brand-text antialiased font-sans selection:bg-brand-primary pt-32 pb-20 transition-colors duration-500 min-h-screen flex flex-col justify-center">
       
-      {/* Texture Noise */}
-      <div className="bg-noise"></div>
+      {/* Background Noise Texture */}
+      <div className="bg-noise opacity-50 mix-blend-overlay pointer-events-none fixed inset-0"></div>
+      <main className="container mx-auto px-6 relative z-10">
 
-      {/* --- SOLUÇÃO DO DARK MODE ---
-          Injetamos o CSS aqui dentro para garantir que as variáveis existam.
-          Quando o HTML ganhar a classe 'dark', as cores mudam automaticamente.
-      */}
-      <style>{`
-        /* Cores Padrão (Light Mode) */
-        :root {
-          --map-fill: #e2e8f0;       /* Slate 200 */
-          --map-stroke: #cbd5e1;     /* Slate 300 */
-          --map-hover-fill: #ede9fe; /* Roxo muito claro */
-          --map-hover-stroke: #7c3aed; /* Roxo Brand */
-          
-          --pin-color: #7c3aed;      /* Roxo Brand */
-          --pin-bg: #ffffff;         /* Branco */
-          --pin-text: #1e293b;       /* Slate 800 */
-        }
-
-        /* Cores Dark Mode (Ativa quando classe .dark existe no HTML) */
-        .dark {
-          --map-fill: rgba(30, 41, 59, 0.4);   /* Slate 800 Transparente */
-          --map-stroke: rgba(148, 163, 184, 0.2); /* Linhas finas */
-          --map-hover-fill: rgba(124, 58, 237, 0.15); /* Glow Roxo */
-          --map-hover-stroke: #a78bfa; /* Roxo Claro */
-          
-          --pin-color: #a78bfa;      /* Roxo Neon */
-          --pin-bg: #1e293b;         /* Slate 800 */
-          --pin-text: #ffffff;       /* Branco */
-        }
-      `}</style>
-      
-      
-
-      <main className="container mx-auto px-6">
-
-        {/* --- HERO SECTION --- */}
-        <section className="mb-8 text-center">
-          <div className="max-w-5xl mx-auto space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-sm font-bold uppercase tracking-widest animate-fade-in">
-              <span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse"></span>
-              Atuação Nacional
-            </div>
-            
-            <h1 className="font-heading text-5xl md:text-7xl font-black text-brand-text leading-[1] tracking-tighter animate-fade-in-up">
-              Conectando o Brasil <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-primary bg-300% animate-gradient">
-                de ponta a ponta.
-              </span>
-            </h1>
+        {/* --- CABEÇALHO --- */}
+        <div className="text-center mb-12 lg:mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-md">
+            <span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse"></span>
+            Ecossistema Vouch
           </div>
-        </section>
+          <h1 className="font-heading text-4xl md:text-6xl font-black text-brand-text tracking-tight">
+            Nossa Atuação <span className="text-brand-primary">Nacional</span>
+          </h1>
+        </div>
 
-        {/* --- MAPA INTERATIVO --- */}
-        <section className="flex justify-center relative perspective-1000 mb-20">
+        {/* --- LAYOUT DUPLO --- */}
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 xl:gap-24">
           
-          <div className="w-full max-w-4xl relative h-[550px] md:h-[650px] flex items-center justify-center">
+          {/* ESQUERDA: O MAPA */}
+          <div className="w-full lg:w-3/5 h-[400px] lg:h-[600px] relative flex items-center justify-center">
             
-            <ComposableMap
+            {/* Efeito de fundo atrás do mapa (Ambient Light) */}
+            <div className="absolute inset-0 bg-brand-primary/5 blur-[100px] rounded-full pointer-events-none"></div>
+
+             <ComposableMap
               projection="geoMercator"
               projectionConfig={{
-                scale: 850,
+                scale: 900,
                 center: [-52, -15] 
               }}
               style={{ width: "100%", height: "100%" }}
             >
-              {/* DESENHO DOS ESTADOS */}
               <Geographies geography={BRAZIL_GEO_URL}>
                 {({ geographies }) =>
-                  geographies.map((geo) => (
-                    <Geography
-                      key={geo.rsmKey}
-                      geography={geo}
-                      style={{
-                        default: {
-                          fill: "var(--map-fill)", 
-                          stroke: "var(--map-stroke)",
-                          strokeWidth: 0.75,
-                          outline: "none",
-                          transition: "all 0.5s ease"
-                        },
-                        hover: {
-                          fill: "var(--map-hover-fill)", 
-                          stroke: "var(--map-hover-stroke)",
-                          strokeWidth: 1,
-                          outline: "none",
-                          cursor: "pointer",
-                          transition: "all 0.3s ease",
-                        },
-                        pressed: {
-                          fill: "var(--map-stroke)",
-                          outline: "none",
-                        },
-                      }}
-                    />
-                  ))
-                }
-              </Geographies>
-
-              {/* MARCADORES (PONTOS) */}
-              {markers.map((marker) => {
-                const isActive = activeMarker === marker.id;
-                return (
-                  <Marker 
-                    key={marker.id} 
-                    coordinates={marker.coordinates as [number, number]}
-                    onMouseEnter={() => setActiveMarker(marker.id)}
-                    onClick={() => setActiveMarker(isActive ? null : marker.id)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <g transform="translate(-12, -24)">
-                      {/* Ícone do Pino */}
-                      <path 
-                        d="M12 0C7.58 0 4 3.58 4 8c0 5.25 8 13 8 13s8-7.75 8-13c0-4.42-3.58-8-8-8zm0 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"
-                        fill={isActive ? "var(--pin-bg)" : "var(--pin-color)"} 
-                        stroke={isActive ? "var(--pin-color)" : "var(--map-fill)"}
-                        strokeWidth="1.5"
-                        className="transition-all duration-300 drop-shadow-xl"
-                        style={{ 
-                          transform: isActive ? "scale(1.3) translateY(-4px)" : "scale(1)", 
-                          transformOrigin: "center bottom" 
+                  geographies.map((geo) => {
+                    const isSelected = geo.properties.sigla === currentLocation.id || geo.id === currentLocation.id;
+                    
+                    return (
+                      <Geography
+                        key={geo.rsmKey}
+                        geography={geo}
+                        style={{
+                          default: {
+                            fill: isSelected ? "var(--map-active)" : "var(--map-fill)",
+                            stroke: isSelected ? "var(--map-active)" : "var(--map-stroke)",
+                            strokeWidth: isSelected ? 1 : 0.5,
+                            outline: "none",
+                            transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+                            // O segredo do visual bonito: Filter Drop Shadow no estado ativo
+                            filter: isSelected ? "drop-shadow(0 0 15px var(--map-glow))" : "none",
+                            zIndex: isSelected ? 10 : 1
+                          },
+                          hover: {
+                            fill: "var(--map-active)",
+                            opacity: 0.7,
+                            outline: "none",
+                            cursor: "pointer",
+                            transition: "all 0.3s ease"
+                          },
+                          pressed: { outline: "none" }
+                        }}
+                        onClick={() => {
+                          const idx = locations.findIndex(l => l.id === geo.properties.sigla);
+                          if (idx >= 0) {
+                            setActiveIndex(idx);
+                            setIsPlaying(false);
+                          }
                         }}
                       />
-                    </g>
-                    
-                    {/* Nome da Cidade */}
-                    <text
-                      textAnchor="middle"
-                      y={40}
-                      style={{ 
-                        fontFamily: "system-ui", 
-                        fill: "var(--pin-text)", 
-                        fontSize: "12px",
-                        fontWeight: "700",
-                        textShadow: "0px 2px 4px rgba(0,0,0,0.2)",
-                        opacity: isActive ? 0 : 0.9,
-                        pointerEvents: "none",
-                        transition: "all 0.3s"
-                      }}
-                    >
-                      {marker.name.split(" ")[0]}
-                    </text>
-                  </Marker>
-                )
-              })}
+                    );
+                  })
+                }
+              </Geographies>
             </ComposableMap>
-
-            {/* --- CARD DE DETALHES --- */}
-            {activeMarker && currentLoc && (
-              <div className="absolute bottom-4 right-4 md:bottom-12 md:right-12 z-30 w-72 md:w-80 animate-fade-in-up">
-                <div className="glass-card p-6 rounded-2xl border border-brand-text/10 shadow-2xl relative overflow-hidden backdrop-blur-xl bg-brand-bg/90 transition-all duration-300">
-                  
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); setActiveMarker(null); }}
-                    className="absolute top-4 right-4 text-brand-muted hover:text-brand-text transition-colors bg-brand-text/5 hover:bg-brand-text/10 rounded-full p-1"
-                  >
-                    <ArrowRight size={16} className="rotate-45" />
-                  </button>
-
-                  <div className="relative z-10">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center text-white shadow-lg shadow-brand-primary/20">
-                        <MapPin size={20} />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-brand-text leading-none mb-1">{currentLoc.name}</h3>
-                        <div className="flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                          <p className="text-[10px] text-brand-muted font-bold uppercase tracking-wider">Operação Ativa</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <p className="text-sm text-brand-muted mb-6 leading-relaxed border-l-2 border-brand-primary/30 pl-3">
-                      {currentLoc.desc}
-                    </p>
-
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-brand-text/5 p-3 rounded-xl border border-brand-text/5 transition-colors">
-                        <div className="flex items-center gap-1.5 text-brand-muted text-[10px] uppercase font-bold mb-1">
-                          <Users size={12} /> Carteira
-                        </div>
-                        <p className="text-lg font-bold text-brand-text">{currentLoc.stats.clientes}</p>
-                      </div>
-                      <div className="bg-brand-text/5 p-3 rounded-xl border border-brand-text/5 transition-colors">
-                        <div className="flex items-center gap-1.5 text-brand-muted text-[10px] uppercase font-bold mb-1">
-                          <TrendingUp size={12} /> Volume
-                        </div>
-                        <p className="text-lg font-bold text-brand-text">{currentLoc.stats.valor}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Hint de UX */}
-            {!activeMarker && (
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 animate-bounce pointer-events-none opacity-60">
-                <MousePointer2 size={16} className="text-brand-primary" />
-                <span className="text-[10px] uppercase tracking-widest text-brand-muted font-bold bg-brand-bg/50 px-3 py-1 rounded-full backdrop-blur-md border border-brand-text/5">
-                  Explore o mapa
-                </span>
-              </div>
-            )}
-
           </div>
-        </section>
 
-        {/* --- DADOS DE CONFIANÇA --- */}
-        <section className="py-20 bg-brand-text/5 relative -mx-6 px-6">
-          <div className="container mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              {[
-                { icon: Server, val: "99.9%", label: "Uptime Garantido" },
-                { icon: ShieldCheck, val: "ISO 27001", label: "Segurança de Dados" },
-                { icon: Building2, val: "24/7", label: "Suporte Especializado" },
-              ].map((item, i) => (
-                <div key={i} className="group cursor-default">
-                  <div className="w-14 h-14 mx-auto bg-brand-primary/10 rounded-2xl flex items-center justify-center text-brand-primary mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <item.icon size={28} />
-                  </div>
-                  <h3 className="text-4xl font-bold text-brand-text mb-2 group-hover:text-brand-primary transition-colors">{item.val}</h3>
-                  <p className="text-brand-muted text-sm uppercase tracking-wider font-bold">{item.label}</p>
+          {/* DIREITA: CARD DE INFORMAÇÃO (Premium Card) */}
+          <div className="w-full lg:w-2/5">
+            <div 
+              className="relative rounded-3xl overflow-hidden backdrop-blur-xl transition-all duration-300"
+              style={{ 
+                backgroundColor: 'var(--card-bg)',
+                border: '1px solid var(--card-border)',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' 
+              }}
+            >
+              
+              {/* Barra de Progresso Superior */}
+              {isPlaying && (
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-brand-text/5">
+                  <div key={activeIndex} className="h-full bg-brand-primary animate-progress-bar origin-left shadow-[0_0_10px_var(--map-active)]"></div>
                 </div>
-              ))}
+              )}
+
+              {/* Controles (Canto Superior) */}
+              <div className="absolute top-6 right-6 flex gap-2 z-20">
+                 {/* Navegação Manual Rápida */}
+                 <div className="flex gap-1 mr-4 items-center">
+                    {locations.map((loc, idx) => (
+                      <button
+                        key={loc.id}
+                        onClick={() => { setActiveIndex(idx); setIsPlaying(false); }}
+                        className={`h-1.5 rounded-full transition-all duration-500 ${
+                          idx === activeIndex 
+                            ? 'w-6 bg-brand-primary' 
+                            : 'w-1.5 bg-brand-text/20 hover:bg-brand-text/50'
+                        }`}
+                      />
+                    ))}
+                 </div>
+
+                <button 
+                  onClick={() => setIsPlaying(!isPlaying)}
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-brand-text/5 hover:bg-brand-text/10 text-brand-muted hover:text-brand-primary transition-all"
+                >
+                  {isPlaying ? <Pause size={14} /> : <Play size={14} />}
+                </button>
+              </div>
+
+              <div className="p-8 md:p-10 flex flex-col h-full min-h-[420px]">
+                
+                {/* Header do Card */}
+                <div className="flex flex-col gap-1 mb-8 mt-4">
+                  <div className="flex items-center gap-3 animate-fade-in" key={`badge-${activeIndex}`}>
+                    <span className="w-8 h-8 rounded-lg bg-brand-primary/10 flex items-center justify-center text-brand-primary">
+                      <MapPin size={16} />
+                    </span>
+                    <p className="text-xs font-bold text-brand-primary uppercase tracking-widest">
+                      {currentLocation.type}
+                    </p>
+                  </div>
+                  
+                  <h2 className="text-4xl font-black text-brand-text tracking-tight animate-fade-in-up" key={`title-${activeIndex}`}>
+                    {currentLocation.name}
+                  </h2>
+                </div>
+
+                {/* Descrição */}
+                <div className="flex-1 mb-8">
+                  <p key={`desc-${activeIndex}`} className="text-lg text-brand-muted leading-relaxed font-light animate-fade-in">
+                    {currentLocation.desc}
+                  </p>
+                </div>
+
+                {/* Stats Grid (Dark Mode Friendly) */}
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Stat 1 */}
+                  <div className="relative group overflow-hidden rounded-2xl bg-brand-text/[0.03] border border-brand-text/[0.05] p-5 hover:bg-brand-text/[0.05] transition-all duration-300">
+                    <div className="flex items-center gap-2 mb-2 text-brand-muted text-[10px] uppercase font-bold tracking-wider">
+                      <Users size={12} className="text-brand-primary" /> Carteira Ativa
+                    </div>
+                    <p key={`s1-${activeIndex}`} className="text-2xl font-bold text-brand-text animate-fade-in">
+                      {currentLocation.stats.clientes}
+                    </p>
+                  </div>
+                  
+                  {/* Stat 2 */}
+                  <div className="relative group overflow-hidden rounded-2xl bg-brand-text/[0.03] border border-brand-text/[0.05] p-5 hover:bg-brand-text/[0.05] transition-all duration-300">
+                     <div className="flex items-center gap-2 mb-2 text-brand-muted text-[10px] uppercase font-bold tracking-wider">
+                      <BarChart3 size={12} className="text-brand-primary" /> Volume / Mês
+                    </div>
+                    <p key={`s2-${activeIndex}`} className="text-2xl font-bold text-brand-text animate-fade-in">
+                      {currentLocation.stats.valor}
+                    </p>
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
-        </section>
+
+        </div>
 
       </main>
     </div>

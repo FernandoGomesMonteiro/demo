@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { 
   X, ChevronLeft, ChevronRight, 
   Cloud, Cpu, Wallet, Headset, 
-  Check, Play, MessageCircle, Rocket, ArrowRight, MousePointer2
+  Check, Play, Rocket, ArrowRight, 
+  Smartphone, BarChart3, ShieldCheck, FileText, Zap, Apple, Monitor,
+  Building2, Globe, Quote
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
 
 // --- TIPAGEM ---
 interface Testimonial {
@@ -17,6 +18,15 @@ interface Testimonial {
   stars: number;
 }
 
+interface Feature {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  icon: any; 
+  hex: string; 
+}
+
 // --- DADOS ---
 const testimonialsData: Testimonial[] = [
   {
@@ -24,7 +34,7 @@ const testimonialsData: Testimonial[] = [
     name: "Aline Marques",
     role: "CEO da Condopleno",
     image: "https://ui-avatars.com/api/?name=Aline+Marques&background=0f172a&color=fff",
-    content: "A Vouch sempre traz inovações e soluções que realmente fazem a diferença no nosso dia a dia. As ferramentas são simples de usar e automatizam processos.",
+    content: "A Vouch sempre traz inovações e soluções que realmente fazem a diferença no nosso dia a dia. As ferramentas são simples de usar e automatizam processos que antes levavam horas da nossa equipe financeira. A clareza dos relatórios facilitou muito nossas reuniões de condomínio e trouxe mais transparência para os nossos clientes.",
     stars: 5
   },
   {
@@ -32,7 +42,7 @@ const testimonialsData: Testimonial[] = [
     name: "Fernando Oliveira",
     role: "Coord. Financeiro",
     image: "https://ui-avatars.com/api/?name=Fernando+O&background=0f172a&color=fff",
-    content: "A automação de cobranças reduziu nossa inadimplência em 40%. O sistema é intuitivo e o suporte técnico sempre disponível.",
+    content: "A automação de cobranças reduziu nossa inadimplência em 40% logo nos primeiros meses de uso. O sistema é extremamente intuitivo e o suporte técnico sempre disponível para resolver qualquer dúvida rapidamente. Foi o melhor investimento que fizemos no setor de garantias até hoje.",
     stars: 5
   },
   {
@@ -40,26 +50,127 @@ const testimonialsData: Testimonial[] = [
     name: "Ricardo Silva",
     role: "Gestor Predial",
     image: "https://ui-avatars.com/api/?name=Ricardo+S&background=0f172a&color=fff",
-    content: "A integração bancária automática nos economizou horas de trabalho manual todos os dias. Simplesmente indispensável.",
+    content: "A integração bancária automática nos economizou horas de trabalho manual todos os dias. Simplesmente indispensável para quem lida com múltiplas contas e precisa de conciliação precisa. A interface limpa ajuda muito na operação diária e no treinamento de novos colaboradores.",
     stars: 5
   }
+];
+
+const featuresData: Feature[] = [
+  {
+    id: 1,
+    title: "Dashboard Executivo",
+    subtitle: "Visão Macro",
+    description: "Tenha o controle total da operação. Acompanhe inadimplência, fluxo de caixa e acordos em tempo real com gráficos intuitivos e exportáveis.",
+    icon: BarChart3,
+    hex: "#7c3aed" // Roxo Brand
+  },
+  {
+    id: 2,
+    title: "Automação de Cobrança",
+    subtitle: "Régua Inteligente",
+    description: "O sistema trabalha por você. Régua de cobrança automática via E-mail, SMS e WhatsApp. O sistema identifica o atraso e notifica o condômino.",
+    icon: Zap,
+    hex: "#06b6d4" // Ciano
+  },
+  {
+    id: 3,
+    title: "Cloud Security",
+    subtitle: "Segurança Bancária",
+    description: "Durma tranquilo sabendo que seus dados estão protegidos com criptografia de ponta a ponta e backups diários automáticos na nuvem segura.",
+    icon: Cloud,
+    hex: "#8b5cf6" // Violeta
+  },
+  {
+    id: 4,
+    title: "Prestação de Contas",
+    subtitle: "Transparência Total",
+    description: "Geração de relatórios automáticos para síndicos e administradoras. Gere balancetes, extratos e comprovantes com apenas um clique.",
+    icon: FileText,
+    hex: "#f97316" // Laranja
+  },
+  {
+    id: 5,
+    title: "Gestão de Acordos",
+    subtitle: "Recuperação de Crédito",
+    description: "Módulo exclusivo para negociação de dívidas. O sistema calcula juros e multas automaticamente e gera o parcelamento integrado ao boleto.",
+    icon: Wallet,
+    hex: "#10b981" // Verde Esmeralda
+  },
+  {
+    id: 6,
+    title: "Jurídico Integrado",
+    subtitle: "Cobrança Judicial",
+    description: "Emissão de minutas de confissão de dívida e integração direta com o módulo de cobrança judicial para casos críticos.",
+    icon: ShieldCheck,
+    hex: "#ec4899" // Rosa
+  }
+];
+
+// --- DADOS DA RÉGUA DE ESTATÍSTICAS ---
+const statsData = [
+  { label: "Garantidoras Atendidas", value: "150+", icon: Building2, color: "text-blue-500" },
+  { label: "Volume Anual (TPV)", value: "R$ 500M", icon: BarChart3, color: "text-emerald-500" },
+  { label: "Boletos Emitidos/Ano", value: "2.5M+", icon: FileText, color: "text-purple-500" },
+  { label: "Estados Atendidos", value: "24", icon: Globe, color: "text-orange-500" },
 ];
 
 function Home() {
   const [showPopup, setShowPopup] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   
+  const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  
   useEffect(() => {
     const popupTimer = setTimeout(() => setShowPopup(true), 4000);
     return () => clearTimeout(popupTimer);
   }, []);
 
-  const nextTestimonial = () => {
-    setActiveTestimonial((prev) => (prev + 1) % testimonialsData.length);
+  // Timer Feature Carousel
+  useEffect(() => {
+    let interval: any;
+    if (isAutoPlaying) {
+      interval = setInterval(() => {
+        setActiveFeatureIndex((prev) => (prev + 1) % featuresData.length);
+      }, 5000);
+    }
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
+
+  // Navegação Depoimentos
+  const nextTestimonial = () => setActiveTestimonial((prev) => (prev + 1) % testimonialsData.length);
+  const prevTestimonial = () => setActiveTestimonial((prev) => (prev - 1 + testimonialsData.length) % testimonialsData.length);
+
+  // Helper para o Carrossel 3D de Depoimentos
+  const getTestimonialStyle = (index: number) => {
+    const total = testimonialsData.length;
+    const isCenter = index === activeTestimonial;
+    const isLeft = index === (activeTestimonial - 1 + total) % total;
+    const isRight = index === (activeTestimonial + 1) % total;
+
+    if (isCenter) {
+      return "z-30 opacity-100 scale-100 translate-x-0 blur-0 shadow-2xl"; 
+    } else if (isLeft) {
+      return "z-10 opacity-40 scale-90 -translate-x-[15%] md:-translate-x-[25%] blur-[1px] grayscale cursor-pointer hover:opacity-60"; 
+    } else if (isRight) {
+      return "z-10 opacity-40 scale-90 translate-x-[15%] md:translate-x-[25%] blur-[1px] grayscale cursor-pointer hover:opacity-60"; 
+    } else {
+      return "z-0 opacity-0 scale-75 hidden"; 
+    }
   };
 
-  const prevTestimonial = () => {
-    setActiveTestimonial((prev) => (prev - 1 + testimonialsData.length) % testimonialsData.length);
+  const activeFeature = featuresData[activeFeatureIndex];
+
+  const handleAnimationEnd = () => {
+    if (isAutoPlaying) {
+      setActiveFeatureIndex((prev) => (prev + 1) % featuresData.length);
+    }
+  };
+
+  const handleFeatureClick = (index: number) => {
+    setActiveFeatureIndex(index);
+    setIsAutoPlaying(false);
+    setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
   return (
@@ -72,11 +183,19 @@ function Home() {
         <div className="absolute -bottom-32 left-1/3 w-96 h-96 bg-cyan-500/20 rounded-full blur-[128px] animate-blob animation-delay-4000 mix-blend-screen"></div>
       </div>
 
-
+      <style>{`
+        @keyframes fillHeight {
+          from { height: 0%; }
+          to { height: 100%; }
+        }
+        .animate-progress-vertical {
+          animation: fillHeight 5s linear forwards;
+        }
+      `}</style>
 
       <main id="home">
         
-        {/* --- HERO SECTION (Compactado e Focado) --- */}
+        {/* --- HERO SECTION --- */}
         <section className="relative min-h-[90vh] flex flex-col justify-center pt-32 pb-10 overflow-hidden">
           <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
             
@@ -124,16 +243,11 @@ function Home() {
               </div>
             </div>
 
-            {/* Imagem Hero (Estilo "App Shell") */}
+            {/* Imagem Hero */}
             <div className="relative lg:h-[600px] flex items-center justify-center perspective-1000 mt-8 lg:mt-0">
               <div className="relative w-full max-w-md aspect-[4/5] rounded-[2.5rem] overflow-hidden border-8 border-brand-text/5 shadow-2xl bg-brand-bg group animate-float">
-                {/* Imagem */}
                 <img src="https://images.unsplash.com/photo-1661956602116-aa6865609028?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dashboard Vouch" className="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105" />
-                
-                {/* Overlay Gradiente */}
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-bg via-transparent to-transparent opacity-90"></div>
-
-                {/* Card Flutuante Interno */}
                 <div className="absolute bottom-8 left-6 right-6 glass-card p-4 rounded-2xl flex items-center gap-4 animate-bounce-slow border border-white/10">
                   <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30">
                     <Check size={20} strokeWidth={3} />
@@ -146,168 +260,306 @@ function Home() {
               </div>
             </div>
           </div>
+        </section>
 
-          {/* Scroll Down Indicator */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 animate-bounce hidden md:flex flex-col items-center gap-2 opacity-50">
-            <span className="text-[10px] uppercase tracking-widest text-brand-muted">Descubra</span>
-            <MousePointer2 size={16} className="text-brand-text" />
+        {/* --- ESTATÍSTICAS (A "RÉGUA") --- */}
+        <section className="py-20 relative bg-brand-text/[0.02] border-y border-brand-text/5 overflow-hidden">
+          <div className="hidden lg:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-text/10 to-transparent -translate-y-1/2"></div>
+          
+          <div className="container mx-auto px-6 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0">
+              
+              {statsData.map((stat, index) => (
+                <div key={index} className="relative group text-center lg:px-8">
+                  {index !== statsData.length - 1 && (
+                    <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-12 bg-brand-text/10"></div>
+                  )}
+
+                  <div className="mb-6 relative inline-block">
+                    <div className={`absolute inset-0 blur-xl opacity-20 group-hover:opacity-40 transition-opacity ${stat.color.replace('text-', 'bg-')}`}></div>
+                    <div className="w-16 h-16 mx-auto rounded-2xl bg-brand-bg border border-brand-text/10 flex items-center justify-center shadow-lg relative z-10 group-hover:-translate-y-2 transition-transform duration-300">
+                      <stat.icon size={32} className={stat.color} />
+                    </div>
+                  </div>
+
+                  <h3 className="text-4xl font-black text-brand-text mb-2 tracking-tight group-hover:scale-105 transition-transform duration-300">
+                    {stat.value}
+                  </h3>
+                  
+                  <p className="text-sm font-bold uppercase tracking-widest text-brand-muted">
+                    {stat.label}
+                  </p>
+
+                  <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-brand-bg border-2 border-brand-text/20 z-0 mt-[80px] group-hover:border-brand-primary group-hover:bg-brand-primary transition-colors duration-300"></div>
+                </div>
+              ))}
+
+            </div>
           </div>
         </section>
 
-        {/* --- INTEGRAÇÕES (BENTO GRID) --- */}
-        {/* Layout mais "preso" e organizado */}
-        <section id="sistema" className="py-20 relative">
+        {/* --- CARROSSEL DE FUNCIONALIDADES (INVERTIDO) --- */}
+        <section id="sistema" className="py-24 relative">
           <div className="container mx-auto px-6">
             
-            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-              <div className="max-w-2xl">
-                <span className="text-brand-primary font-bold tracking-wider text-xs uppercase mb-2 block">Ecossistema</span>
-                <h2 className="font-heading text-3xl md:text-4xl font-bold text-brand-text">
-                  O Futuro é <span className="text-gradient">Automatizado</span>
-                </h2>
-                <p className="text-brand-muted mt-4">
-                  Conecte sua operação às melhores ferramentas do mercado sem digitar uma linha de código.
-                </p>
-              </div>
-              <Link to="/integracoes" className="text-brand-primary font-bold hover:text-brand-secondary transition-colors flex items-center gap-2 text-sm">
-                Ver todas as integrações <ArrowRight size={16} />
-              </Link>
+            <div className="text-center mb-16 max-w-3xl mx-auto">
+              <span className="text-brand-primary font-bold tracking-widest text-xs uppercase mb-3 block">Recursos Premium</span>
+              <h2 className="font-heading text-3xl md:text-5xl font-bold text-brand-text mb-6">
+                Poder Total para sua <span className="text-gradient">Operação</span>
+              </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[280px]">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
               
-              {/* Card 1: Cloud (Alto) */}
-              <div className="md:row-span-2 glass-card rounded-[2rem] p-8 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-brand-primary/20 rounded-full blur-[50px] -mr-10 -mt-10 transition-opacity opacity-50 group-hover:opacity-100"></div>
-                <div className="relative z-10 h-full flex flex-col justify-between">
-                  <div className="w-12 h-12 rounded-xl bg-brand-text/5 flex items-center justify-center text-brand-primary group-hover:scale-110 transition-transform duration-300">
-                    <Cloud size={24} />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-brand-text mb-2">Cloud Computing</h3>
-                    <p className="text-brand-muted text-sm leading-relaxed">
-                      Segurança de nível bancário. Seus dados criptografados e acessíveis de qualquer lugar do mundo.
+              {/* ESQUERDA: JANELA DE CONTEÚDO */}
+              <div className="lg:col-span-7 sticky top-24">
+                <div className="glass-card rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden min-h-[500px] flex flex-col justify-center border-brand-text/10 transition-all duration-500">
+                  
+                  {/* Background Glow Dinâmico */}
+                  <div 
+                    className="absolute top-0 right-0 w-96 h-96 opacity-20 blur-[100px] rounded-full -mr-20 -mt-20 transition-colors duration-700"
+                    style={{ backgroundColor: activeFeature.hex }}
+                  ></div>
+
+                  <div key={activeFeature.id} className="relative z-10 animate-fade-in-up">
+                    
+                    <div 
+                      className="w-20 h-20 rounded-3xl border border-brand-text/10 flex items-center justify-center mb-8 shadow-xl backdrop-blur-md"
+                      style={{ 
+                        backgroundColor: `${activeFeature.hex}15`,
+                        color: activeFeature.hex 
+                      }}
+                    >
+                      <activeFeature.icon size={40} />
+                    </div>
+
+                    <h3 className="text-3xl md:text-5xl font-bold text-brand-text mb-6 leading-tight">
+                      {activeFeature.title}
+                    </h3>
+                    
+                    <p className="text-xl text-brand-muted leading-relaxed mb-10">
+                      {activeFeature.description}
                     </p>
+
+                    <div className="flex items-center gap-4">
+                      <Link to="/funcionalidades" className="px-6 py-3 bg-brand-primary hover:bg-brand-primary/90 text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-brand-primary/25 flex items-center gap-2">
+                        Saiba mais <ArrowRight size={18} />
+                      </Link>
+                      
+                      <div className="px-4 py-2 rounded-lg bg-brand-text/5 text-xs font-bold uppercase tracking-wider text-brand-muted flex items-center gap-2">
+                        <Monitor size={14} /> Desktop & Mobile
+                      </div>
+                    </div>
+
                   </div>
+
                 </div>
               </div>
 
-              {/* Card 2: Automação (Largo) */}
-              <div className="md:col-span-2 glass-card rounded-[2rem] p-8 relative overflow-hidden group flex flex-col md:flex-row items-center gap-8">
-                <div className="absolute inset-0 bg-gradient-to-r from-brand-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="flex-1 relative z-10">
-                  <div className="w-12 h-12 rounded-xl bg-brand-text/5 flex items-center justify-center text-brand-secondary mb-4">
-                    <Cpu size={24} />
-                  </div>
-                  <h3 className="text-2xl font-bold text-brand-text mb-2">Robôs Inteligentes</h3>
-                  <p className="text-brand-muted text-sm">
-                    Identificação de pagamentos, baixa automática e envio de notificações sem intervenção humana.
-                  </p>
-                </div>
-                {/* Visualização abstrata de UI */}
-                <div className="flex-1 w-full bg-brand-bg/60 rounded-xl border border-brand-text/5 p-4 shadow-sm relative z-10 translate-y-4 md:translate-y-0 group-hover:-translate-y-2 transition-transform duration-500">
-                  <div className="flex gap-2 mb-3">
-                    <div className="w-2 h-2 rounded-full bg-red-400"></div>
-                    <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
-                    <div className="w-2 h-2 rounded-full bg-green-400"></div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="h-2 w-3/4 bg-brand-text/10 rounded-full"></div>
-                    <div className="h-2 w-1/2 bg-brand-text/10 rounded-full"></div>
-                    <div className="h-6 w-full bg-brand-primary/10 rounded-md mt-2 border border-brand-primary/10"></div>
-                  </div>
-                </div>
-              </div>
+              {/* DIREITA: LISTA DE NAVEGAÇÃO */}
+              <div className="lg:col-span-5 flex flex-col gap-3">
+                {featuresData.map((feature, idx) => {
+                  const isActive = idx === activeFeatureIndex;
+                  return (
+                    <button
+                      key={feature.id}
+                      onClick={() => handleFeatureClick(idx)}
+                      className={`relative text-left p-6 rounded-2xl transition-all duration-300 border group overflow-hidden outline-none
+                        ${isActive 
+                          ? 'bg-brand-text/5 border-brand-primary/30 shadow-lg scale-[1.02]' 
+                          : 'bg-transparent border-transparent hover:bg-brand-text/[0.02] hover:border-brand-text/5 opacity-80 hover:opacity-100'
+                        }`}
+                    >
+                      {isActive && isAutoPlaying && (
+                        <div className="absolute left-0 top-0 w-1 h-full bg-brand-text/5">
+                           <div 
+                              className="w-full bg-brand-primary animate-progress-vertical origin-top"
+                              onAnimationEnd={handleAnimationEnd}
+                           ></div>
+                        </div>
+                      )}
+                      
+                      {isActive && !isAutoPlaying && (
+                         <div className="absolute left-0 top-0 w-1 h-full bg-brand-primary"></div>
+                      )}
 
-              {/* Card 3: Cobrança */}
-              <div className="glass-card rounded-[2rem] p-8 group hover:border-cyan-500/30 transition-all">
-                <Wallet size={28} className="text-cyan-500 mb-6" />
-                <h3 className="text-xl font-bold text-brand-text mb-2">Cobrança Ativa</h3>
-                <p className="text-brand-muted text-sm">Régua automática via E-mail, SMS e WhatsApp.</p>
-              </div>
-
-              {/* Card 4: Suporte */}
-              <div className="glass-card rounded-[2rem] p-8 group hover:border-orange-500/30 transition-all">
-                <Headset size={28} className="text-orange-500 mb-6" />
-                <h3 className="text-xl font-bold text-brand-text mb-2">Suporte Parceiro</h3>
-                <p className="text-brand-muted text-sm">Uma extensão técnica da sua equipe.</p>
+                      <div className="flex items-center gap-4 pl-3">
+                        <div 
+                          className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors shadow-sm"
+                          style={{ 
+                            backgroundColor: `${feature.hex}1a`, 
+                            color: feature.hex 
+                          }}
+                        >
+                          <feature.icon size={20} />
+                        </div>
+                        
+                        <div>
+                          <h4 className={`font-bold text-lg leading-tight mb-1 ${isActive ? 'text-brand-text' : 'text-brand-muted group-hover:text-brand-text'}`}>
+                            {feature.title}
+                          </h4>
+                          <p className="text-xs font-bold uppercase tracking-wider text-brand-muted/70">
+                            {feature.subtitle}
+                          </p>
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
 
             </div>
           </div>
         </section>
 
-        {/* --- DEPOIMENTOS (Compacto e Elegante) --- */}
-        <section className="py-20 relative border-t border-brand-text/5">
-          <div className="container mx-auto px-6 max-w-4xl text-center">
+        {/* --- APP SECTION --- */}
+        <section id="app" className="py-20">
+          <div className="container mx-auto px-6">
+            <div className="glass-card rounded-[3rem] p-8 md:p-0 overflow-hidden relative border-brand-primary/10">
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+                
+                {/* Lado Esquerdo */}
+                <div className="p-8 md:p-16 relative z-10">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-xs font-bold uppercase tracking-wide mb-6">
+                    <Smartphone size={14} />
+                    Mobile App
+                  </div>
+                  
+                  <h2 className="font-heading text-4xl md:text-5xl font-bold text-brand-text mb-6 leading-tight">
+                    Leve a Vouch no <br/>
+                    <span className="text-gradient">Seu Bolso</span>
+                  </h2>
+                  
+                  <p className="text-brand-muted text-lg mb-10 leading-relaxed">
+                    Gerencie sua operação de qualquer lugar. Acesse dashboards, aprove acordos e monitore a cobrança na palma da mão.
+                  </p>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <button className="flex items-center gap-3 bg-brand-text text-brand-bg px-5 py-3 rounded-xl hover:opacity-90 transition-opacity">
+                      <Apple size={28} className="fill-current" />
+                      <div className="text-left">
+                        <div className="text-[10px] uppercase font-bold opacity-80">Download on the</div>
+                        <div className="text-sm font-bold leading-none">App Store</div>
+                      </div>
+                    </button>
+
+                    <button className="flex items-center gap-3 bg-transparent border border-brand-text/20 text-brand-text px-5 py-3 rounded-xl hover:bg-brand-text/5 transition-colors">
+                      <Play size={26} className="fill-current" />
+                      <div className="text-left">
+                        <div className="text-[10px] uppercase font-bold opacity-80">GET IT ON</div>
+                        <div className="text-sm font-bold leading-none">Google Play</div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Lado Direito: Mockup */}
+                <div className="relative h-[400px] md:h-[500px] flex items-center justify-center p-8">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-brand-primary/20 rounded-full blur-[60px]"></div>
+
+                  <div className="relative w-64 h-[480px] bg-brand-bg border-8 border-brand-text rounded-[2.5rem] shadow-2xl z-10 overflow-hidden rotate-[-5deg] hover:rotate-0 transition-transform duration-500">
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-brand-text rounded-b-xl z-20"></div>
+                    <div className="w-full h-full bg-brand-bg pt-10 px-4 flex flex-col gap-4">
+                      <div className="flex justify-between items-center">
+                        <div className="w-8 h-8 rounded-full bg-brand-text/10"></div>
+                        <div className="w-20 h-4 rounded-full bg-brand-text/10"></div>
+                      </div>
+                      <div className="w-full h-32 rounded-2xl bg-gradient-to-br from-brand-primary to-brand-secondary p-4 text-white shadow-lg">
+                        <div className="w-8 h-8 rounded-lg bg-white/20 mb-4"></div>
+                        <div className="h-4 w-24 bg-white/20 rounded mb-2"></div>
+                        <div className="h-6 w-32 bg-white/40 rounded"></div>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="w-full h-14 rounded-xl bg-brand-text/5 flex items-center px-3 gap-3">
+                           <div className="w-8 h-8 rounded-full bg-brand-text/10"></div>
+                           <div className="flex-1 h-3 bg-brand-text/10 rounded"></div>
+                        </div>
+                        <div className="w-full h-14 rounded-xl bg-brand-text/5 flex items-center px-3 gap-3">
+                           <div className="w-8 h-8 rounded-full bg-brand-text/10"></div>
+                           <div className="flex-1 h-3 bg-brand-text/10 rounded"></div>
+                        </div>
+                         <div className="w-full h-14 rounded-xl bg-brand-text/5 flex items-center px-3 gap-3">
+                           <div className="w-8 h-8 rounded-full bg-brand-text/10"></div>
+                           <div className="flex-1 h-3 bg-brand-text/10 rounded"></div>
+                        </div>
+                      </div>
+                      <div className="absolute bottom-6 right-6 w-12 h-12 rounded-full bg-brand-primary shadow-lg flex items-center justify-center text-white">
+                        <ArrowRight size={20} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* --- DEPOIMENTOS (CARD COM FUNDO E SOMBRA) --- */}
+        <section className="py-20 pb-32 relative border-t border-brand-text/5 overflow-hidden">
+          <div className="container mx-auto px-6 max-w-6xl text-center">
             <h2 className="font-heading text-3xl font-bold mb-12">
               Quem usa, <span className="text-brand-primary">recomenda</span>
             </h2>
 
-            <div className="relative min-h-[300px]">
-              {testimonialsData.map((testimonial, index) => (
-                <div 
-                  key={testimonial.id}
-                  className={`absolute inset-0 transition-all duration-700 flex flex-col items-center justify-center
-                    ${index === activeTestimonial 
-                      ? 'opacity-100 scale-100 translate-x-0 blur-0' 
-                      : 'opacity-0 scale-95 translate-x-8 blur-sm pointer-events-none'}`}
-                >
-                  <blockquote className="text-2xl md:text-3xl text-brand-text font-medium leading-tight mb-8">
-                    "{testimonial.content}"
-                  </blockquote>
-                  
-                  <div className="flex items-center gap-4">
-                    <img src={testimonial.image} alt={testimonial.name} className="w-12 h-12 rounded-full object-cover border-2 border-brand-primary" />
-                    <div className="text-left">
-                      <div className="font-bold text-brand-text text-base">{testimonial.name}</div>
-                      <div className="text-brand-primary text-xs font-bold uppercase tracking-wider">{testimonial.role}</div>
+            {/* Container Relativo para os Cards Sobrepostos */}
+            <div className="relative h-[550px] md:h-[500px] flex items-center justify-center perspective-1000">
+              
+              {testimonialsData.map((testimonial, index) => {
+                const cardStyle = getTestimonialStyle(index);
+
+                return (
+                  <div 
+                    key={testimonial.id}
+                    onClick={() => {
+                        if (index !== activeTestimonial) setActiveTestimonial(index);
+                    }}
+                    className={`absolute w-full max-w-4xl transition-all duration-700 ease-in-out flex flex-col items-center justify-center ${cardStyle}`}
+                  >
+                    {/* CARD DEPOIMENTO (ESTILO RESTAURADO: FUNDO SÓLIDO) */}
+                    <div className="bg-brand-bg border border-brand-text/5 shadow-2xl rounded-[2.5rem] p-12 md:p-16 max-w-4xl w-full relative mx-auto overflow-hidden">
+                      
+                      {/* Aspas decorativas grandes */}
+                      <Quote size={80} className="absolute top-10 left-10 text-brand-primary/10 fill-current -z-0" />
+
+                      <div className="relative z-10 pt-8">
+                        {/* Texto Justificado, Cinza e Menor */}
+                        <p className="text-brand-muted text-sm md:text-base text-justify leading-relaxed mb-10 font-medium">
+                          "{testimonial.content}"
+                        </p>
+                        
+                        <div className="flex items-center gap-4 justify-center border-t border-brand-text/5 pt-8">
+                          <img src={testimonial.image} alt={testimonial.name} className="w-14 h-14 rounded-full object-cover border-2 border-brand-primary/30" />
+                          <div className="text-left">
+                            <div className="font-bold text-brand-text text-base">{testimonial.name}</div>
+                            <div className="text-brand-primary text-xs font-bold uppercase tracking-wider">{testimonial.role}</div>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="flex items-center justify-center gap-4 mt-8">
-              <button onClick={prevTestimonial} className="p-3 rounded-full hover:bg-brand-text/5 text-brand-muted hover:text-brand-text transition-colors">
+              <button onClick={prevTestimonial} className="p-3 rounded-full hover:bg-brand-text/5 text-brand-muted hover:text-brand-text transition-colors z-40">
                 <ChevronLeft size={24} />
               </button>
-              <div className="flex gap-2">
+              <div className="flex gap-2 z-40">
                 {testimonialsData.map((_, i) => (
                     <div key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === activeTestimonial ? 'w-8 bg-brand-primary' : 'w-2 bg-brand-text/20'}`} />
                 ))}
               </div>
-              <button onClick={nextTestimonial} className="p-3 rounded-full hover:bg-brand-text/5 text-brand-muted hover:text-brand-text transition-colors">
+              <button onClick={nextTestimonial} className="p-3 rounded-full hover:bg-brand-text/5 text-brand-muted hover:text-brand-text transition-colors z-40">
                 <ChevronRight size={24} />
               </button>
             </div>
           </div>
         </section>
 
-        {/* --- CTA FINAL --- */}
-        <section id="contato" className="py-20 pb-32">
-          <div className="container mx-auto px-6">
-            <div className="glass-card rounded-[2.5rem] p-12 md:p-16 text-center relative overflow-hidden group border-brand-primary/20">
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/10 via-transparent to-brand-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-              
-              <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6 text-brand-text relative z-10">
-                Pronto para transformar sua Garantidora?
-              </h2>
-              <p className="text-brand-muted mb-10 max-w-xl mx-auto text-lg relative z-10">
-                Agende uma demonstração gratuita e descubra o poder da automação.
-              </p>
-              
-              <a 
-                href="https://wa.me/5511999999999" 
-                target="_blank"
-                className="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold rounded-xl transition-all hover:scale-105 shadow-xl shadow-green-500/20 active:scale-95 group/btn"
-              >
-                <MessageCircle size={22} className="group-hover/btn:animate-bounce" /> 
-                Falar no WhatsApp
-              </a>
-            </div>
-          </div>
-        </section>
       </main>
 
       {/* --- POPUP DE CHAT --- */}
@@ -323,7 +575,6 @@ function Home() {
         <p className="text-xs text-brand-muted mb-4 leading-relaxed">Tem alguma dúvida sobre o sistema? Nossa equipe está pronta para ajudar.</p>
         <a href="#" className="block w-full py-2.5 bg-brand-text/5 hover:bg-brand-primary text-center rounded-lg text-xs font-bold text-brand-text hover:text-white transition-all">Iniciar Conversa</a>
       </div>
-
     
     </div>
   );

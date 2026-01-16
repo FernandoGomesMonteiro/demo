@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Importação das Páginas
 import Home from './home';
+import Home2 from './home2';
 import Services from './Services';
 import Features from './Features';
 import Integrations from './integration';
@@ -24,6 +25,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/home2" element={<Home2 />} />
         <Route path="/servicos" element={<Services />} />
         <Route path="/sobre" element={<About />} />
         <Route path="/funcionalidades" element={<Features />} />
