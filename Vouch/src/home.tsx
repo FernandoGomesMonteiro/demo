@@ -95,14 +95,6 @@ const featuresData: Feature[] = [
     description: "Módulo exclusivo para negociação de dívidas. O sistema calcula juros e multas automaticamente e gera o parcelamento integrado ao boleto.",
     icon: Wallet,
     hex: "#10b981" // Verde Esmeralda
-  },
-  {
-    id: 6,
-    title: "Jurídico Integrado",
-    subtitle: "Cobrança Judicial",
-    description: "Emissão de minutas de confissão de dívida e integração direta com o módulo de cobrança judicial para casos críticos.",
-    icon: ShieldCheck,
-    hex: "#ec4899" // Rosa
   }
 ];
 
@@ -290,7 +282,7 @@ function Home() {
                     {stat.label}
                   </p>
 
-                  <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-brand-bg border-2 border-brand-text/20 z-0 mt-[80px] group-hover:border-brand-primary group-hover:bg-brand-primary transition-colors duration-300"></div>
+                  
                 </div>
               ))}
 
@@ -492,6 +484,91 @@ function Home() {
                 </div>
 
               </div>
+            </div>
+          </div>
+        </section>
+ {/* --- NOVO LAYOUT DE INFORMAÇÕES DO SISTEMA (Melhorado) --- */}
+        <section id="sistema" className="py-24 relative">
+          <div className="container mx-auto px-6 py-20 pb-32 relative border-t border-brand-text/5 overflow-hidden">
+            
+            <div className="text-center mb-16 max-w-3xl mx-auto">
+              <span className="text-brand-primary font-bold tracking-widest text-xs uppercase mb-3 block">Recursos Premium</span>
+              <h2 className="font-heading text-3xl md:text-5xl font-bold text-brand-text mb-6">
+                Tudo o que você precisa em <span className="text-gradient">Um Só Lugar</span>
+              </h2>
+              <p className="text-brand-muted text-lg">
+                Projetamos cada detalhe para maximizar a eficiência da sua garantidora.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              
+              {/* Feature 1 */}
+              <div className="glass-card p-8 rounded-[2rem] hover:bg-brand-text/5 transition-all duration-300 group hover:-translate-y-2">
+                <div className="w-14 h-14 rounded-2xl bg-brand-primary/10 flex items-center justify-center text-brand-primary mb-6 group-hover:scale-110 transition-transform">
+                  <BarChart3 size={28} />
+                </div>
+                <h3 className="text-xl font-bold text-brand-text mb-3">Dashboard Executivo</h3>
+                <p className="text-brand-muted leading-relaxed">
+                  Visão macro da operação. Acompanhe inadimplência, fluxo de caixa e acordos em tempo real com gráficos intuitivos.
+                </p>
+              </div>
+
+              {/* Feature 2 */}
+              <div className="glass-card p-8 rounded-[2rem] hover:bg-brand-text/5 transition-all duration-300 group hover:-translate-y-2">
+                <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 flex items-center justify-center text-cyan-500 mb-6 group-hover:scale-110 transition-transform">
+                  <Zap size={28} />
+                </div>
+                <h3 className="text-xl font-bold text-brand-text mb-3">Automação de Cobrança</h3>
+                <p className="text-brand-muted leading-relaxed">
+                  Régua de cobrança automática via E-mail, SMS e WhatsApp. Reduza o trabalho manual da sua equipe financeira.
+                </p>
+              </div>
+
+              {/* Feature 3 */}
+              <div className="glass-card p-8 rounded-[2rem] hover:bg-brand-text/5 transition-all duration-300 group hover:-translate-y-2">
+                <div className="w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-500 mb-6 group-hover:scale-110 transition-transform">
+                  <Cloud size={28} />
+                </div>
+                <h3 className="text-xl font-bold text-brand-text mb-3">Cloud Security</h3>
+                <p className="text-brand-muted leading-relaxed">
+                  Seus dados protegidos com criptografia de ponta a ponta e backups diários automáticos na nuvem.
+                </p>
+              </div>
+
+              {/* Feature 4 */}
+              <div className="glass-card p-8 rounded-[2rem] hover:bg-brand-text/5 transition-all duration-300 group hover:-translate-y-2">
+                <div className="w-14 h-14 rounded-2xl bg-orange-500/10 flex items-center justify-center text-orange-500 mb-6 group-hover:scale-110 transition-transform">
+                  <FileText size={28} />
+                </div>
+                <h3 className="text-xl font-bold text-brand-text mb-3">Prestação de Contas</h3>
+                <p className="text-brand-muted leading-relaxed">
+                  Geração de relatórios automáticos para síndicos e administradoras. Exportação PDF simples e profissional.
+                </p>
+              </div>
+
+              {/* Feature 5 */}
+              <div className="glass-card p-8 rounded-[2rem] hover:bg-brand-text/5 transition-all duration-300 group hover:-translate-y-2">
+                <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-500 mb-6 group-hover:scale-110 transition-transform">
+                  <Wallet size={28} />
+                </div>
+                <h3 className="text-xl font-bold text-brand-text mb-3">Gestão de Acordos</h3>
+                <p className="text-brand-muted leading-relaxed">
+                  Módulo exclusivo para negociação de dívidas, cálculo de juros automático e parcelamento flexível.
+                </p>
+              </div>
+
+              {/* Feature 6 */}
+              <div className="glass-card p-8 rounded-[2rem] hover:bg-brand-text/5 transition-all duration-300 group hover:-translate-y-2">
+                <div className="w-14 h-14 rounded-2xl bg-pink-500/10 flex items-center justify-center text-pink-500 mb-6 group-hover:scale-110 transition-transform">
+                  <ShieldCheck size={28} />
+                </div>
+                <h3 className="text-xl font-bold text-brand-text mb-3">Jurídico Integrado</h3>
+                <p className="text-brand-muted leading-relaxed">
+                  Emissão de minutas de confissão de dívida e integração direta com o módulo de cobrança judicial.
+                </p>
+              </div>
+
             </div>
           </div>
         </section>
