@@ -8,11 +8,13 @@ import Features from './Features';
 import Integrations from './integration';
 import Partners from './partners'; // Certifique-se que o arquivo é Partners.tsx
 import About from './About'; // Importe
+import Differentials from './Differentials';
 
 // Importação dos Componentes Fixos
 import ScrollToTop from './components/ScrollToTop';
 import Header from './components/Header';
 import Footer from './components/Footer';
+
 
 function App() {
   return (
@@ -31,6 +33,7 @@ function App() {
         <Route path="/funcionalidades" element={<Features />} />
         <Route path="/integracoes" element={<Integrations />} />
         <Route path="/parceiros" element={<Partners />} />
+        <Route path="/diferenciais" element={<Differentials />} />
       </Routes>
 
       {/* Footer aparece em todas as telas */}

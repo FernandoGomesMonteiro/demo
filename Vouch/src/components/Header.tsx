@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { 
   Menu, X, ChevronRight, Sun, Moon, ChevronDown, 
-  Zap, BarChart3, ShieldCheck, Wallet, FileText 
+  Zap, BarChart3, ShieldCheck, FileText 
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -44,6 +44,7 @@ function Header() {
   });
   
   const location = useLocation();
+  // Função auxiliar para verificar rota ativa
   const isActive = (path: string) => location.pathname === path;
 
   // Efeito de Scroll
@@ -77,7 +78,6 @@ function Header() {
         {/* --- LOGO --- */}
         <Link to="/" className="flex items-center gap-3 group relative z-50">
           <div className="relative">
-            {/* Efeito de brilho atrás do logo */}
             <div className="absolute inset-0 bg-brand-primary/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <img 
               src="/Logomarca_Vouch - Copia.png" 
@@ -90,10 +90,9 @@ function Header() {
           </span>
         </Link>
 
-        {/* --- MENU DESKTOP (CLEAN & INTERATIVO) --- */}
-        <nav className="hidden lg:flex items-center gap-10">
+        {/* --- MENU DESKTOP --- */}
+        <nav className="hidden lg:flex items-center gap-8 xl:gap-10">
           
-          {/* Link Simples */}
           <Link 
             to="/" 
             className={`text-sm font-semibold tracking-wide transition-colors duration-300 ${
@@ -103,7 +102,6 @@ function Header() {
             Home
           </Link>
 
-          {/* Link Simples */}
           <Link 
             to="/sobre" 
             className={`text-sm font-semibold tracking-wide transition-colors duration-300 ${
@@ -113,8 +111,18 @@ function Header() {
             Quem Somos
           </Link>
 
-          {/* --- DROPDOWN FUNCIONALIDADES (MEGA MENU) --- */}
-          <div className="group relative py-4"> {/* Padding vertical ajuda a não perder o hover */}
+          {/* NOVO LINK ADICIONADO AQUI */}
+          <Link 
+            to="/diferenciais" 
+            className={`text-sm font-semibold tracking-wide transition-colors duration-300 ${
+              isActive('/diferenciais') ? 'text-brand-primary' : 'text-brand-muted hover:text-brand-text'
+            }`}
+          >
+            Diferenciais
+          </Link>
+
+          {/* --- DROPDOWN FUNCIONALIDADES --- */}
+          <div className="group relative py-4">
             <button 
               className={`flex items-center gap-1 text-sm font-semibold tracking-wide transition-colors duration-300 focus:outline-none ${
                 location.pathname.includes('/funcionalidades') ? 'text-brand-primary' : 'text-brand-muted group-hover:text-brand-text'
@@ -127,7 +135,6 @@ function Header() {
             {/* O Dropdown */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 ease-out min-w-[500px]">
               <div className="bg-brand-bg/95 backdrop-blur-2xl border border-brand-text/10 rounded-2xl shadow-2xl p-6 overflow-hidden relative">
-                {/* Efeito de brilho no topo do menu */}
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-primary opacity-50"></div>
                 
                 <div className="grid grid-cols-2 gap-4">
@@ -157,7 +164,6 @@ function Header() {
             </div>
           </div>
 
-          {/* Link Simples */}
           <Link 
             to="/integracoes" 
             className={`text-sm font-semibold tracking-wide transition-colors duration-300 ${
@@ -172,7 +178,6 @@ function Header() {
         {/* --- ACTIONS --- */}
         <div className="flex items-center gap-4">
           
-          {/* Botão de Tema */}
           <button 
             onClick={() => setIsLightMode(!isLightMode)} 
             className="p-2.5 rounded-full text-brand-muted hover:bg-brand-text/5 hover:text-brand-text transition-all active:scale-95"
@@ -181,7 +186,6 @@ function Header() {
             {isLightMode ? <Moon size={20} /> : <Sun size={20} />}
           </button>
 
-          {/* Botão CTA Principal */}
           <a 
             href="https://wa.me/5511999999999" 
             target="_blank" 
@@ -191,7 +195,6 @@ function Header() {
             <ChevronRight size={16} />
           </a>
           
-          {/* Botão Mobile */}
           <button 
             className="lg:hidden text-brand-text p-2 hover:bg-brand-text/5 rounded-lg transition-colors" 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -208,7 +211,10 @@ function Header() {
           <Link to="/" className="text-xl font-bold text-brand-text py-4 border-b border-brand-text/5" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
           <Link to="/sobre" className="text-xl font-bold text-brand-text py-4 border-b border-brand-text/5" onClick={() => setIsMobileMenuOpen(false)}>Quem Somos</Link>
           
-          {/* Submenu Mobile Expandido */}
+          {/* Link Mobile Adicionado */}
+          <Link to="/diferenciais" className="text-xl font-bold text-brand-text py-4 border-b border-brand-text/5" onClick={() => setIsMobileMenuOpen(false)}>Diferenciais</Link>
+          
+          {/* Submenu Mobile */}
           <div className="py-4 border-b border-brand-text/5">
             <p className="text-xl font-bold text-brand-text mb-4">Funcionalidades</p>
             <div className="pl-4 flex flex-col gap-4">
