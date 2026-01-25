@@ -6,72 +6,85 @@
 
 @layer base {
   :root {
-    /* --- MODO ESCURO (Padrão no seu projeto) --- */
+    /* --- MODO ESCURO (Roxo Profundo + Azul Tech) --- */
     
-    /* Cores Base do Site (RGB Puros) */
-    --color-bg: 2 6 23;        /* Slate 950 */
-    --color-text: 226 232 240; /* Slate 200 */
-    --color-muted: 148 163 184;/* Slate 400 */
-    --color-primary: 124 58 237; /* Violet 600 */
-    --color-secondary: 217 70 239; /* Fuchsia 500 */
+    /* Fundo Roxo Profundo (Base) */
+    --color-bg: 26 16 44;         /* #1a102c */
     
-    --grad-start: 25 15 50;
-    --grad-end: 2 6 23;
+    /* Texto Lilás Claro */
+    --color-text: 231 212 232;    /* #e7d4e8 */
+    
+    /* Muted Lilás Médio */
+    --color-muted: 183 127 186;   /* #b77fba */
+    
+    /* Primary: Roxo Vibrante */
+    --color-primary: 159 85 163;  /* #9f55a3 */
+    
+    /* Secondary: AZUL da Paleta (Substituindo o Verde) */
+    --color-secondary: 74 144 226; /* #4a90e2 */
+    
+    /* Gradientes de Fundo: Roxo Marca -> Preto Absoluto */
+    --grad-start: 26 16 44;       
+    --grad-end: 0 0 0;            
 
-    /* --- VARIAVEIS DO MAPA (DARK MODE) --- */
-    --map-fill: #1e293b;        /* Slate 800 */
-    --map-stroke: #334155;      /* Slate 700 */
-    --map-active: #a78bfa;      /* Roxo Neon */
-    --map-glow: rgba(167, 139, 250, 0.5); /* Glow Neon */
+    /* --- MAPA/CARDS --- */
+    --map-fill: #331f57;          
+    --map-stroke: #513157;        
+    --map-active: #4a90e2;        /* Agora o ativo é Azul */
+    --map-glow: rgba(74, 144, 226, 0.6); /* Glow Azul */
     
-    --card-bg: rgba(15, 23, 42, 0.6); /* Vidro Escuro */
-    --card-border: rgba(255, 255, 255, 0.1);
-    --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    /* Vidro escuro */
+    --card-bg: rgba(26, 16, 44, 0.6); 
+    --card-border: rgba(231, 212, 232, 0.1);
+    --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
   }
 
   .light-mode {
-    /* --- MODO CLARO (Ativado via classe) --- */
+    /* --- MODO CLARO (Roxo + Azul) --- */
     
-    /* Cores Base do Site (RGB Puros) */
-    --color-bg: 255 255 255;   /* Branco */
-    --color-text: 15 23 42;    /* Slate 900 */
-    --color-muted: 71 85 105;  /* Slate 600 */
-    --color-primary: 37 99 235; /* Blue 600 */
-    --color-secondary: 147 51 234; /* Purple 600 */
-
-    --grad-start: 255 255 255;
-    --grad-end: 219 234 254;
-
-    /* --- VARIAVEIS DO MAPA (LIGHT MODE) --- */
-    --map-fill: #e2e8f0;        /* Slate 200 */
-    --map-stroke: #cbd5e1;      /* Slate 300 */
-    --map-active: #7c3aed;      /* Roxo Brand */
-    --map-glow: rgba(124, 58, 237, 0); /* Sem brilho no claro */
+    /* Fundo Branco/Gelo */
+    --color-bg: 242 242 244;      /* #f2f2f4 */
+    --color-text: 74 42 112;      /* #4a2a70 */
+    --color-muted: 135 66 140;    /* #872a8c */
+    --color-primary: 135 66 140;  /* #872a8c */
     
-    --card-bg: rgba(255, 255, 255, 0.7);
-    --card-border: rgba(0, 0, 0, 0.05);
-    --card-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+    /* Secondary: AZUL Claro da Paleta */
+    --color-secondary: 60 124 197; /* #3c7cc5 */
+
+    /* Gradientes Light */
+    --grad-start: 255 255 255;    
+    --grad-end: 242 242 244;      
+
+    /* --- MAPA LIGHT --- */
+    --map-fill: #e7d4e8;          
+    --map-stroke: #b77fba;        
+    --map-active: #3c7cc5;        /* Azul no Light */
+    --map-glow: rgba(60, 124, 197, 0); 
+    
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --card-border: rgba(74, 42, 112, 0.08);
+    --card-shadow: 0 20px 40px -10px rgba(74, 42, 112, 0.15);
   }
 }
 
 body {
-  /* Fundo com fallback e gradiente */
   background-color: rgb(var(--color-bg));
-  background-image: linear-gradient(to right, rgb(var(--grad-start)), rgb(var(--grad-end)));
+  /* Mantendo o gradiente radial para foco no centro */
+  background-image: radial-gradient(circle at center top, rgb(var(--grad-start)), rgb(var(--grad-end)));
   background-attachment: fixed;
   color: rgb(var(--color-text));
   transition: background-image 0.5s ease, color 0.5s ease, background-color 0.5s ease;
 }
 
-/* Utilitários */
 @layer utilities {
   .glass-card {
-    @apply backdrop-blur-md shadow-lg transition-colors duration-500;
-    background-color: rgb(var(--color-text) / 0.03);
+    @apply backdrop-blur-xl shadow-2xl transition-all duration-500;
+    background-color: rgb(var(--color-bg) / 0.4); 
     border: 1px solid rgb(var(--color-text) / 0.1);
   }
   
   .text-gradient {
+    /* Gradiente de Texto: Vai do Roxo (Primary) para o Azul (Secondary) */
     background-image: linear-gradient(to right, rgb(var(--color-primary)), rgb(var(--color-secondary)));
     -webkit-background-clip: text;
     background-clip: text;
@@ -79,7 +92,6 @@ body {
   }
 }
 
-/* Animação da barra de progresso do Mapa */
 @keyframes progress-bar {
   from { width: 0%; }
   to { width: 100%; }

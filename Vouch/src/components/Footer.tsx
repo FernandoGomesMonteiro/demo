@@ -11,11 +11,13 @@ function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-brand-bg pt-20 pb-10 border-t border-brand-text/5 overflow-hidden mt-auto">
+    <footer className="relative bg-brand-bg pt-20 pb-10 border-t border-brand-text/5 overflow-hidden mt-auto transition-colors duration-500">
       
       {/* --- BACKGROUND DECORATIVO (Efeito de Luz) --- */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none opacity-20">
+        {/* Glow Primário (Roxo Vibrante) */}
         <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-brand-primary/30 rounded-full blur-[128px]"></div>
+        {/* Glow Secundário (Verde/Azul da paleta) */}
         <div className="absolute top-0 right-1/4 w-64 h-64 bg-brand-secondary/30 rounded-full blur-[100px]"></div>
       </div>
 
@@ -27,20 +29,16 @@ function Footer() {
           {/* COLUNA 1: SOBRE A EMPRESA */}
           <div className="space-y-6">
             <Link to="/" className="flex items-center gap-2 group w-fit">
-                  {/* Substituímos o quadrado colorido (div) pela imagem (img) */}
-          <img 
-            src="/Logomarca_Vouch - Copia.png" 
-            alt="Logo Vouch" 
-            className="h-12 w-auto object-contain transition-transform group-hover:scale-110" 
-          />
-         
+              {/* Logo Imagem */}
+              <img 
+                src="/Logomarca_Vouch - Copia.png" 
+                alt="Logo Vouch" 
+                className="h-12 w-auto object-contain transition-transform group-hover:scale-110" 
+              />
               <span className="font-heading font-bold text-2xl text-brand-text">
                 VOUCH
               </span>
             </Link>
-
-
-
 
             <p className="text-brand-muted leading-relaxed">
               Transformando a gestão da sua empresa com tecnologia de ponta, design intuitivo e funcionalidades modulares.
@@ -57,7 +55,7 @@ function Footer() {
                 <a 
                   key={idx}
                   href={social.href}
-                  className="w-10 h-10 rounded-full bg-brand-text/5 flex items-center justify-center text-brand-muted hover:bg-brand-primary hover:text-white transition-all duration-300 hover:-translate-y-1"
+                  className="w-10 h-10 rounded-full bg-brand-text/5 flex items-center justify-center text-brand-muted hover:bg-brand-primary hover:text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-primary/20"
                 >
                   <social.icon size={18} />
                 </a>
@@ -69,7 +67,7 @@ function Footer() {
           <div>
             <h4 className="text-brand-text font-bold mb-6 text-lg">Produto</h4>
             <ul className="space-y-4">
-              <li><Link to="/funcionalidades" className="text-brand-muted hover:text-brand-primary transition-colors flex items-center gap-2 group">Funcionalidades <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity"/></Link></li>
+              <li><Link to="/features" className="text-brand-muted hover:text-brand-primary transition-colors flex items-center gap-2 group">Funcionalidades <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity"/></Link></li>
               <li><Link to="/integracoes" className="text-brand-muted hover:text-brand-primary transition-colors">Integrações</Link></li>
               <li><Link to="/planos" className="text-brand-muted hover:text-brand-primary transition-colors">Planos e Preços</Link></li>
               <li><a href="#" className="text-brand-muted hover:text-brand-primary transition-colors">Atualizações</a></li>

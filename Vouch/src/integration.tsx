@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { 
-  Search, Filter, ArrowRight,
+  Search, ArrowRight,
   Landmark, Building2, MessageCircle, Database,
   CheckCircle2, Clock, Plus
 } from 'lucide-react';

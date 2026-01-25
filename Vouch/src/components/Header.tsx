@@ -1,37 +1,6 @@
 import { useState, useEffect } from 'react';
-import { 
-  Menu, X, ChevronRight, Sun, Moon, ChevronDown, 
-  Zap, BarChart3, ShieldCheck, FileText 
-} from 'lucide-react';
+import { Menu, X, ChevronRight, Sun, Moon } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-
-// Sub-itens do menu Funcionalidades
-const featuresSubMenu = [
-  { 
-    name: "Automação de Cobrança", 
-    desc: "Régua inteligente via SMS e Email", 
-    icon: Zap, 
-    path: "/funcionalidades/automacao" 
-  },
-  { 
-    name: "Dashboard Executivo", 
-    desc: "Metricas em tempo real", 
-    icon: BarChart3, 
-    path: "/funcionalidades/dashboard" 
-  },
-  { 
-    name: "Gestão Jurídica", 
-    desc: "Controle de processos e acordos", 
-    icon: ShieldCheck, 
-    path: "/funcionalidades/juridico" 
-  },
-  { 
-    name: "Prestação de Contas", 
-    desc: "Transparência para o condomínio", 
-    icon: FileText, 
-    path: "/funcionalidades/relatorios" 
-  },
-];
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -44,7 +13,6 @@ function Header() {
   });
   
   const location = useLocation();
-  // Função auxiliar para verificar rota ativa
   const isActive = (path: string) => location.pathname === path;
 
   // Efeito de Scroll
@@ -65,11 +33,17 @@ function Header() {
     }
   }, [isLightMode]);
 
+  // Classe base para os links
+  const linkClasses = (path: string) => `
+    text-base font-semibold tracking-wide transition-colors duration-300
+    ${isActive(path) ? 'text-brand-primary' : 'text-brand-muted hover:text-brand-text'}
+  `;
+
   return (
     <header 
       className={`fixed w-full top-0 z-50 transition-all duration-500 border-b ${
         isScrolled 
-          ? 'bg-brand-bg/80 backdrop-blur-xl border-brand-text/5 py-3 shadow-lg shadow-brand-primary/5' 
+          ? 'bg-brand-bg/80 backdrop-blur-xl border-brand-text/5 py-3 shadow-lg shadow-brand-primary/10' 
           : 'bg-transparent border-transparent py-6' 
       }`}
     >
@@ -78,7 +52,8 @@ function Header() {
         {/* --- LOGO --- */}
         <Link to="/" className="flex items-center gap-3 group relative z-50">
           <div className="relative">
-            <div className="absolute inset-0 bg-brand-primary/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            {/* Glow atrás da logo usando a cor Primary da paleta */}
+            <div className="absolute inset-0 bg-brand-primary/30 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <img 
               src="/Logomarca_Vouch - Copia.png" 
               alt="Logo Vouch" 
@@ -93,83 +68,24 @@ function Header() {
         {/* --- MENU DESKTOP --- */}
         <nav className="hidden lg:flex items-center gap-8 xl:gap-10">
           
-          <Link 
-            to="/" 
-            className={`text-sm font-semibold tracking-wide transition-colors duration-300 ${
-              isActive('/') ? 'text-brand-primary' : 'text-brand-muted hover:text-brand-text'
-            }`}
-          >
+          <Link to="/" className={linkClasses('/')}>
             Home
           </Link>
 
-          <Link 
-            to="/sobre" 
-            className={`text-sm font-semibold tracking-wide transition-colors duration-300 ${
-              isActive('/sobre') ? 'text-brand-primary' : 'text-brand-muted hover:text-brand-text'
-            }`}
-          >
+          <Link to="/sobre" className={linkClasses('/sobre')}>
             Quem Somos
           </Link>
 
-          {/* NOVO LINK ADICIONADO AQUI */}
-          <Link 
-            to="/diferenciais" 
-            className={`text-sm font-semibold tracking-wide transition-colors duration-300 ${
-              isActive('/diferenciais') ? 'text-brand-primary' : 'text-brand-muted hover:text-brand-text'
-            }`}
-          >
-            Diferenciais
+          <Link to="/funcionalidades" className={linkClasses('/funcionalidades')}>
+            Funcionalidades
           </Link>
 
-          {/* --- DROPDOWN FUNCIONALIDADES --- */}
-          <div className="group relative py-4">
-            <button 
-              className={`flex items-center gap-1 text-sm font-semibold tracking-wide transition-colors duration-300 focus:outline-none ${
-                location.pathname.includes('/funcionalidades') ? 'text-brand-primary' : 'text-brand-muted group-hover:text-brand-text'
-              }`}
-            >
-              Funcionalidades
-              <ChevronDown size={14} className="transition-transform duration-300 group-hover:rotate-180" />
-            </button>
 
-            {/* O Dropdown */}
-            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 ease-out min-w-[500px]">
-              <div className="bg-brand-bg/95 backdrop-blur-2xl border border-brand-text/10 rounded-2xl shadow-2xl p-6 overflow-hidden relative">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-primary opacity-50"></div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  {featuresSubMenu.map((item) => (
-                    <Link 
-                      key={item.name} 
-                      to={item.path}
-                      className="flex items-start gap-4 p-3 rounded-xl hover:bg-brand-text/5 transition-colors group/item"
-                    >
-                      <div className="w-10 h-10 rounded-lg bg-brand-primary/10 flex items-center justify-center text-brand-primary group-hover/item:bg-brand-primary group-hover/item:text-white transition-all">
-                        <item.icon size={20} />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-brand-text text-sm group-hover/item:text-brand-primary transition-colors">{item.name}</h4>
-                        <p className="text-xs text-brand-muted leading-relaxed mt-0.5">{item.desc}</p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-                
-                <div className="mt-4 pt-4 border-t border-brand-text/5 text-center">
-                  <Link to="/funcionalidades" className="text-xs font-bold text-brand-primary hover:underline inline-flex items-center gap-1">
-                    Ver todas as funcionalidades <ChevronRight size={12} />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Link to="/suporte" className={linkClasses('/suporte')}>
+            Suporte
+          </Link>
 
-          <Link 
-            to="/integracoes" 
-            className={`text-sm font-semibold tracking-wide transition-colors duration-300 ${
-              isActive('/integracoes') ? 'text-brand-primary' : 'text-brand-muted hover:text-brand-text'
-            }`}
-          >
+          <Link to="/integracoes" className={linkClasses('/integracoes')}>
             Integrações
           </Link>
 
@@ -189,7 +105,8 @@ function Header() {
           <a 
             href="https://wa.me/5511999999999" 
             target="_blank" 
-            className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-brand-bg bg-brand-text rounded-full hover:opacity-90 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-brand-text/10"
+            // Botão com alto contraste baseado na paleta (Fundo Texto / Texto Fundo)
+            className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-brand-bg bg-brand-text rounded-full hover:bg-brand-primary hover:text-white hover:scale-105 active:scale-95 transition-all shadow-lg shadow-brand-primary/20"
           >
             Agendar Demo 
             <ChevronRight size={16} />
@@ -208,28 +125,19 @@ function Header() {
       <div className={`lg:hidden fixed inset-0 z-40 bg-brand-bg/95 backdrop-blur-xl transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ top: '80px' }}>
         <div className="p-6 flex flex-col gap-2 h-full overflow-y-auto">
           
-          <Link to="/" className="text-xl font-bold text-brand-text py-4 border-b border-brand-text/5" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-          <Link to="/sobre" className="text-xl font-bold text-brand-text py-4 border-b border-brand-text/5" onClick={() => setIsMobileMenuOpen(false)}>Quem Somos</Link>
+          <Link to="/" className="text-xl font-bold text-brand-text py-4 border-b border-brand-text/5 hover:text-brand-primary transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
           
-          {/* Link Mobile Adicionado */}
-          <Link to="/diferenciais" className="text-xl font-bold text-brand-text py-4 border-b border-brand-text/5" onClick={() => setIsMobileMenuOpen(false)}>Diferenciais</Link>
+          <Link to="/sobre" className="text-xl font-bold text-brand-text py-4 border-b border-brand-text/5 hover:text-brand-primary transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Quem Somos</Link>
           
-          {/* Submenu Mobile */}
-          <div className="py-4 border-b border-brand-text/5">
-            <p className="text-xl font-bold text-brand-text mb-4">Funcionalidades</p>
-            <div className="pl-4 flex flex-col gap-4">
-              {featuresSubMenu.map(item => (
-                <Link key={item.name} to={item.path} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 text-brand-muted">
-                  <item.icon size={18} className="text-brand-primary" />
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          </div>
+          <Link to="/features" className="text-xl font-bold text-brand-text py-4 border-b border-brand-text/5 hover:text-brand-primary transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Funcionalidades</Link>
+          
+          <Link to="/diferenciais" className="text-xl font-bold text-brand-text py-4 border-b border-brand-text/5 hover:text-brand-primary transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Diferenciais</Link>
+          
+          <Link to="/suporte" className="text-xl font-bold text-brand-text py-4 border-b border-brand-text/5 hover:text-brand-primary transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Suporte</Link>
 
-          <Link to="/integracoes" className="text-xl font-bold text-brand-text py-4 border-b border-brand-text/5" onClick={() => setIsMobileMenuOpen(false)}>Integrações</Link>
+          <Link to="/integracoes" className="text-xl font-bold text-brand-text py-4 border-b border-brand-text/5 hover:text-brand-primary transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Integrações</Link>
           
-          <a href="https://wa.me/5511999999999" className="mt-8 w-full py-4 bg-brand-primary text-white rounded-xl font-bold text-lg text-center shadow-lg">
+          <a href="https://wa.me/5511999999999" className="mt-8 w-full py-4 bg-brand-primary text-white rounded-xl font-bold text-lg text-center shadow-lg shadow-brand-primary/20">
               Falar com Consultor
           </a>
         </div>

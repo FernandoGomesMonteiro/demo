@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { 
   X, ChevronLeft, ChevronRight, 
-  Cloud, Cpu, Wallet, Headset, 
+  Cloud, Wallet, 
   Check, Play, Rocket, ArrowRight, 
   Smartphone, BarChart3, ShieldCheck, FileText, Zap, Apple, Monitor,
   Building2, Globe, Quote
@@ -235,21 +235,36 @@ function Home() {
               </div>
             </div>
 
-            {/* Imagem Hero */}
-            <div className="relative lg:h-[600px] flex items-center justify-center perspective-1000 mt-8 lg:mt-0">
-              <div className="relative w-full max-w-md aspect-[4/5] rounded-[2.5rem] overflow-hidden border-8 border-brand-text/5 shadow-2xl bg-brand-bg group animate-float">
-                <img src="https://images.unsplash.com/photo-1661956602116-aa6865609028?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dashboard Vouch" className="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-bg via-transparent to-transparent opacity-90"></div>
-                <div className="absolute bottom-8 left-6 right-6 glass-card p-4 rounded-2xl flex items-center gap-4 animate-bounce-slow border border-white/10">
-                  <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30">
-                    <Check size={20} strokeWidth={3} />
-                  </div>
-                  <div>
-                    <p className="text-xs text-brand-muted font-medium uppercase tracking-wide">Status</p>
-                    <p className="text-sm font-bold text-brand-text">Sistema 100% Operacional</p>
-                  </div>
+            {/* Imagem Hero ESTILIZADA */}
+            <div className="relative lg:h-[600px] flex items-center justify-center perspective-1000 mt-8 lg:mt-0 group">
+                {/* Efeito de Glow de Fundo */}
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/40 via-transparent to-brand-secondary/40 blur-[80px] rounded-full opacity-70 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+                {/* Container do Card 3D */}
+                <div className="relative w-full max-w-md aspect-[4/5] rounded-[3rem] shadow-2xl transform rotate-y-[-15deg] rotate-x-[5deg] hover:rotate-y-0 hover:rotate-x-0 transition-transform duration-700 ease-out group-hover:shadow-brand-primary/30">
+                    {/* Borda Gradiente */}
+                    <div className="absolute -inset-[3px] bg-gradient-to-br from-brand-primary via-brand-text/20 to-brand-secondary rounded-[3rem] blur-[2px]"></div>
+                    
+                    {/* Conteúdo da Imagem com Efeito de Vidro */}
+                    <div className="absolute inset-0 bg-brand-bg/80 backdrop-blur-md rounded-[3rem] overflow-hidden border border-brand-text/10">
+                        {/* Reflexo de Luz no Vidro */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-30 pointer-events-none z-20"></div>
+
+                        {/* A Imagem em si */}
+                        <img src="https://images.unsplash.com/photo-1661956602116-aa6865609028?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dashboard Vouch" className="w-full h-full object-cover opacity-80 mix-blend-overlay group-hover:opacity-100 transition-opacity duration-700" />
+                    </div>
+
+                    {/* Card Flutuante sobre a imagem */}
+                    <div className="absolute bottom-10 left-8 right-8 glass-card p-5 rounded-3xl flex items-center gap-4 animate-bounce-slow border border-white/10 z-30 shadow-xl">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30">
+                            <Check size={24} strokeWidth={3} />
+                        </div>
+                        <div>
+                            <p className="text-xs text-brand-text/80 font-bold uppercase tracking-wider mb-1">Status do Sistema</p>
+                            <p className="text-lg font-black text-brand-text leading-none">100% Operacional</p>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
           </div>
         </section>
@@ -372,7 +387,7 @@ function Home() {
                       )}
                       
                       {isActive && !isAutoPlaying && (
-                         <div className="absolute left-0 top-0 w-1 h-full bg-brand-primary"></div>
+                          <div className="absolute left-0 top-0 w-1 h-full bg-brand-primary"></div>
                       )}
 
                       <div className="flex items-center gap-4 pl-3">
@@ -464,16 +479,16 @@ function Home() {
                       </div>
                       <div className="space-y-3">
                         <div className="w-full h-14 rounded-xl bg-brand-text/5 flex items-center px-3 gap-3">
-                           <div className="w-8 h-8 rounded-full bg-brand-text/10"></div>
-                           <div className="flex-1 h-3 bg-brand-text/10 rounded"></div>
+                            <div className="w-8 h-8 rounded-full bg-brand-text/10"></div>
+                            <div className="flex-1 h-3 bg-brand-text/10 rounded"></div>
                         </div>
                         <div className="w-full h-14 rounded-xl bg-brand-text/5 flex items-center px-3 gap-3">
-                           <div className="w-8 h-8 rounded-full bg-brand-text/10"></div>
-                           <div className="flex-1 h-3 bg-brand-text/10 rounded"></div>
+                            <div className="w-8 h-8 rounded-full bg-brand-text/10"></div>
+                            <div className="flex-1 h-3 bg-brand-text/10 rounded"></div>
                         </div>
-                         <div className="w-full h-14 rounded-xl bg-brand-text/5 flex items-center px-3 gap-3">
-                           <div className="w-8 h-8 rounded-full bg-brand-text/10"></div>
-                           <div className="flex-1 h-3 bg-brand-text/10 rounded"></div>
+                          <div className="w-full h-14 rounded-xl bg-brand-text/5 flex items-center px-3 gap-3">
+                            <div className="w-8 h-8 rounded-full bg-brand-text/10"></div>
+                            <div className="flex-1 h-3 bg-brand-text/10 rounded"></div>
                         </div>
                       </div>
                       <div className="absolute bottom-6 right-6 w-12 h-12 rounded-full bg-brand-primary shadow-lg flex items-center justify-center text-white">
