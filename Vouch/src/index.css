@@ -6,71 +6,75 @@
 
 @layer base {
   :root {
-    /* --- MODO ESCURO (Roxo Profundo + Azul Tech) --- */
+    /* --- MODO ESCURO (Mantido: Roxo Sólido) --- */
     
-    /* Fundo Roxo Profundo (Base) */
-    --color-bg: 26 16 44;         /* #1a102c */
+    /* Fundo: #1A102C */
+    --color-bg: 26 16 44; 
     
-    /* Texto Lilás Claro */
-    --color-text: 231 212 232;    /* #e7d4e8 */
+    /* Texto: Branco Puro */
+    --color-text: 255 255 255;
     
-    /* Muted Lilás Médio */
-    --color-muted: 183 127 186;   /* #b77fba */
+    /* Muted */
+    --color-muted: 183 127 186;   
     
-    /* Primary: Roxo Vibrante */
-    --color-primary: 159 85 163;  /* #9f55a3 */
+    /* Primary */
+    --color-primary: 159 85 163;  
     
-    /* Secondary: AZUL da Paleta (Substituindo o Verde) */
-    --color-secondary: 74 144 226; /* #4a90e2 */
+    /* Secondary */
+    --color-secondary: 74 144 226; 
     
-    /* Gradientes de Fundo: Roxo Marca -> Preto Absoluto */
+    /* Gradientes Escuros */
     --grad-start: 26 16 44;       
-    --grad-end: 0 0 0;            
+    --grad-end: 26 16 44;            
 
-    /* --- MAPA/CARDS --- */
+    /* --- MAPA/CARDS ESCURO --- */
     --map-fill: #331f57;          
     --map-stroke: #513157;        
-    --map-active: #4a90e2;        /* Agora o ativo é Azul */
-    --map-glow: rgba(74, 144, 226, 0.6); /* Glow Azul */
+    --map-active: #4a90e2;        
+    --map-glow: rgba(74, 144, 226, 0.6); 
     
-    /* Vidro escuro */
     --card-bg: rgba(26, 16, 44, 0.6); 
-    --card-border: rgba(231, 212, 232, 0.1);
-    --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   }
 
   .light-mode {
-    /* --- MODO CLARO (Roxo + Azul) --- */
+    /* --- MODO CLARO (Ajustado: Fundo Roxo Pálido) --- */
     
-    /* Fundo Branco/Gelo */
-    --color-bg: 242 242 244;      /* #f2f2f4 */
-    --color-text: 74 42 112;      /* #4a2a70 */
-    --color-muted: 135 66 140;    /* #872a8c */
-    --color-primary: 135 66 140;  /* #872a8c */
+    /* Fundo: #F8F5FC (Um lilás bem clarinho, evita o branco puro) */
+    --color-bg: 248 245 252;      
     
-    /* Secondary: AZUL Claro da Paleta */
-    --color-secondary: 60 124 197; /* #3c7cc5 */
+    /* Texto: #4A2B71 (Roxo Escuro) */
+    --color-text: 74 43 113;      
+    
+    /* Muted */
+    --color-muted: 135 66 140;    
+    
+    /* Primary */
+    --color-primary: 135 66 140;  
+    
+    /* Secondary */
+    --color-secondary: 60 124 197; 
 
-    /* Gradientes Light */
+    /* Gradientes Light: Do Branco para o Roxo Pálido */
     --grad-start: 255 255 255;    
-    --grad-end: 242 242 244;      
+    --grad-end: 248 245 252;      
 
     /* --- MAPA LIGHT --- */
-    --map-fill: #e7d4e8;          
-    --map-stroke: #b77fba;        
-    --map-active: #3c7cc5;        /* Azul no Light */
+    --map-fill: #dedbe4;          
+    --map-stroke: #6d6d6ddd;        
+    --map-active: #6f3f81;        
     --map-glow: rgba(60, 124, 197, 0); 
     
-    --card-bg: rgba(255, 255, 255, 0.85);
-    --card-border: rgba(74, 42, 112, 0.08);
-    --card-shadow: 0 20px 40px -10px rgba(74, 42, 112, 0.15);
+    --card-bg: rgba(255, 255, 255, 0.6); /* Vidro mais transparente no light */
+    --card-border: rgba(74, 43, 113, 0.08); 
+    --card-shadow: 0 20px 40px -10px rgba(74, 43, 113, 0.1);
   }
 }
 
 body {
   background-color: rgb(var(--color-bg));
-  /* Mantendo o gradiente radial para foco no centro */
-  background-image: radial-gradient(circle at center top, rgb(var(--grad-start)), rgb(var(--grad-end)));
+  background-image: linear-gradient(to bottom, rgb(var(--grad-start)), rgb(var(--grad-end)));
   background-attachment: fixed;
   color: rgb(var(--color-text));
   transition: background-image 0.5s ease, color 0.5s ease, background-color 0.5s ease;
@@ -79,12 +83,12 @@ body {
 @layer utilities {
   .glass-card {
     @apply backdrop-blur-xl shadow-2xl transition-all duration-500;
+    /* Ajuste para o vidro pegar melhor a cor do fundo */
     background-color: rgb(var(--color-bg) / 0.4); 
     border: 1px solid rgb(var(--color-text) / 0.1);
   }
   
   .text-gradient {
-    /* Gradiente de Texto: Vai do Roxo (Primary) para o Azul (Secondary) */
     background-image: linear-gradient(to right, rgb(var(--color-primary)), rgb(var(--color-secondary)));
     -webkit-background-clip: text;
     background-clip: text;

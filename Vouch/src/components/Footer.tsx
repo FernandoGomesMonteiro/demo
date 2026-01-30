@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { 
   Instagram, Linkedin, Facebook, Twitter, 
-  Mail, MapPin, Phone, Heart, ArrowUpRight
+  Mail, MapPin,  ArrowUpRight
 } from 'lucide-react';
 
 // Se quiser usar a imagem da logo, descomente a linha abaixo e ajuste o caminho:
@@ -69,8 +69,6 @@ function Footer() {
             <ul className="space-y-4">
               <li><Link to="/features" className="text-brand-muted hover:text-brand-primary transition-colors flex items-center gap-2 group">Funcionalidades <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity"/></Link></li>
               <li><Link to="/integracoes" className="text-brand-muted hover:text-brand-primary transition-colors">Integrações</Link></li>
-              <li><Link to="/planos" className="text-brand-muted hover:text-brand-primary transition-colors">Planos e Preços</Link></li>
-              <li><a href="#" className="text-brand-muted hover:text-brand-primary transition-colors">Atualizações</a></li>
             </ul>
           </div>
 
@@ -81,7 +79,7 @@ function Footer() {
               <li><Link to="/sobre" className="text-brand-muted hover:text-brand-primary transition-colors">Sobre Nós</Link></li>
               <li><Link to="/carreiras" className="text-brand-muted hover:text-brand-primary transition-colors flex items-center gap-2">Carreiras <span className="text-[10px] bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded-full font-bold">Vagas</span></Link></li>
               <li><Link to="/blog" className="text-brand-muted hover:text-brand-primary transition-colors">Blog</Link></li>
-              <li><Link to="/contato" className="text-brand-muted hover:text-brand-primary transition-colors">Contato</Link></li>
+             
             </ul>
           </div>
 
@@ -91,16 +89,13 @@ function Footer() {
             <ul className="space-y-6">
               <li className="flex items-start gap-3 text-brand-muted">
                 <MapPin className="text-brand-primary shrink-0 mt-1" size={20} />
-                <span>Av. Paulista, 1000<br/>São Paulo - SP, Brasil</span>
+                <span>Curitiba - PR, Brasil</span>
               </li>
               <li className="flex items-center gap-3 text-brand-muted">
                 <Mail className="text-brand-primary shrink-0" size={20} />
                 <a href="mailto:contato@vouch.com.br" className="hover:text-brand-primary transition-colors">contato@vouch.com.br</a>
               </li>
-              <li className="flex items-center gap-3 text-brand-muted">
-                <Phone className="text-brand-primary shrink-0" size={20} />
-                <a href="tel:+5511999999999" className="hover:text-brand-primary transition-colors">(11) 99999-9999</a>
-              </li>
+          
             </ul>
           </div>
 
@@ -115,9 +110,6 @@ function Footer() {
             <Link to="/termos" className="hover:text-brand-primary transition-colors">Termos de Uso</Link>
           </div>
 
-          <div className="flex items-center gap-1 opacity-50 text-xs">
-            Feito com <Heart size={10} className="fill-current text-red-500" /> no Brasil
-          </div>
         </div>
 
       </div>
