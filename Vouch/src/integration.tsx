@@ -13,8 +13,8 @@ const integrationsData = [
   { id: 2, name: "Bradesco", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração completa via API e troca de arquivos segura." },
   { id: 3, name: "Santander", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Webhooks para confirmação de pagamento em tempo real." },
   { id: 4, name: "Banco do Brasil", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Homologado para PIX QR Code e Cobrança Registrada." },
-  { id: 5, name: "Banco Inter", category: "Bancos", status: "active", icon: Landmark, color: "text-[#f2994a]", bg: "bg-[#f2994a]/10", desc: "API 100% digital sem necessidade de troca de arquivos." }, // Inter Laranja
-  { id: 6, name: "Sicoob", category: "Bancos", status: "beta", icon: Landmark, color: "text-[#38c88a]", bg: "bg-[#38c88a]/10", desc: "Integração para cooperativas com taxas reduzidas." }, // Sicoob Verde
+  { id: 5, name: "Banco Inter", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "API 100% digital sem necessidade de troca de arquivos." }, // Inter Laranja
+  { id: 6, name: "Sicoob", category: "Bancos", status: "beta", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração para cooperativas com taxas reduzidas." }, // Sicoob Verde
   
   // ERPs e SISTEMAS (Azul #4a90e2)
   { id: 7, name: "Superlógica", category: "ERPs", status: "active", icon: Building2, color: "text-[#4a90e2]", bg: "bg-[#4a90e2]/10", desc: "Sincronização de unidades, condôminos e receitas." },

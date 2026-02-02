@@ -4,7 +4,10 @@ import {
   Cloud, Wallet, 
   Check, Play, Rocket, ArrowRight, 
   Smartphone, BarChart3, FileText, Zap, Apple, Monitor,
-  Building2, Globe, Quote, Send, Bot, MessageSquare, Wrench, User
+  Building2, Globe, Quote, Send, Bot, MessageSquare, Wrench, User,
+  Headset,
+  Cpu,
+  ShieldCheck
   // Menu foi removido daqui
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -33,6 +36,41 @@ interface Message {
     text: string;
     sender: 'bot' | 'user';
 }
+
+// --- DADOS ---
+const features = [
+  {
+    icon: Cloud,
+    title: "100% em Nuvem",
+    description: "Acesse sua operação de qualquer lugar do mundo. Sem servidores físicos e com backups automáticos."
+  },
+  {
+    icon: ShieldCheck,
+    title: "Segurança Bancária",
+    description: "Dados protegidos com criptografia de ponta. Conformidade total com a LGPD e auditorias constantes."
+  },
+  {
+    icon: Cpu,
+    title: "Ideal para equipes híbridas ou remotas",
+    description: "Perfeito para empresas que precisam de um modelo mais livre para trabalhar. Sem perder controle."
+  },
+  {
+    icon: BarChart3,
+    title: "Dashboards em Tempo Real",
+    description: "Acompanhe inadimplência, fluxo de caixa e performance da equipe em telas visuais e intuitivas."
+  },
+  {
+    icon: Wallet,
+    title: "",
+    description: "Fluxos automáticos de E-mail e WhatsApp. O sistema cobra o condômino de forma amigável."
+  },
+  {
+    icon: Headset,
+    title: "Suporte Especializado",
+    description: "Nossa equipe entende de garantia condominial e ajuda você a destravar processos complexos."
+  }
+];
+
 
 // --- DADOS ---
 const testimonialsData: Testimonial[] = [
@@ -65,17 +103,17 @@ const testimonialsData: Testimonial[] = [
 const featuresData: Feature[] = [
   {
     id: 1,
-    title: "Dashboard Executivo",
-    subtitle: "Visão Macro",
-    description: "Tenha o controle total da operação. Acompanhe inadimplência, fluxo de caixa e acordos em tempo real com gráficos intuitivos e exportáveis.",
+    title: "Gestão de Garantias",
+    subtitle: "Gestão",
+    description: "Controle completo das antecipações e garantias recebidas, com relatórios detalhados para melhor tomada de decisão.",
     icon: BarChart3,
     hex: "#872a8c"
   },
   {
     id: 2,
-    title: "Automação de Cobrança",
-    subtitle: "Régua Inteligente",
-    description: "O sistema trabalha por você. Régua de cobrança automática via E-mail, SMS e WhatsApp. O sistema identifica o atraso e notifica o condômino.",
+    title: "Rastreio de unidades elegíveis para análise jurídica",
+    subtitle: "Análise jurídica",
+    description: "Identificação automática de unidades que atendem aos critérios para encaminhamento jurídico, otimizando o processo de recuperação.",
     icon: Zap,
     hex: "#4a90e2"
   },
@@ -89,17 +127,17 @@ const featuresData: Feature[] = [
   },
   {
     id: 4,
-    title: "Prestação de Contas",
+    title: "Automação de Processos",
     subtitle: "Transparência Total",
-    description: "Geração de relatórios automáticos para síndicos e administradoras. Gere balancetes, extratos e comprovantes com apenas um clique.",
+    description: "Redução de tarefas manuais com processos automatizados que ganham tempo e evitam erros operacionais.",
     icon: FileText,
     hex: "#f2994a"
   },
   {
     id: 5,
-    title: "Gestão de Acordos",
-    subtitle: "Recuperação de Crédito",
-    description: "Módulo exclusivo para negociação de dívidas. O sistema calcula juros e multas automaticamente e gera o parcelamento integrado ao boleto.",
+    title: "Comunicação Automatizada",
+    subtitle: "Automatizada",
+    description: "Envio de notificações, boletos e avisos de forma rápida e organizada.",
     icon: Wallet,
     hex: "#38c88a"
   }
@@ -107,9 +145,9 @@ const featuresData: Feature[] = [
 
 const statsData = [
   { label: "Garantidoras Atendidas", value: "150+", icon: Building2, hex: "#4a90e2" },
-  { label: "Volume Anual (TPV)", value: "R$ 500M", icon: BarChart3, hex: "#38c88a" },
-  { label: "Boletos Emitidos/Ano", value: "2.5M+", icon: FileText, hex: "#872a8c" },
-  { label: "Estados Atendidos", value: "24", icon: Globe, hex: "#f2994a" },
+  { label: "Estados atendidos", value: " 23+", icon: BarChart3, hex: "#38c88a" },
+  { label: "Boletos Emitidos/Ano", value: "19.5M+", icon: FileText, hex: "#872a8c" },
+  { label: "condomínios", value: "7K+", icon: Globe, hex: "#f2994a" },
 ];
 
 function Home() {
@@ -274,11 +312,11 @@ function Home() {
                 Nova versão 2.0 disponível
               </div>
               <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-brand-text tracking-tight">
-                Gestão de Garantias <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#872a8c] to-[#4a90e2]">Simples e Inteligente</span>
+                A tecnologia que <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#872a8c] to-[#4a90e2]">transforma a gestão das garantidoras</span>
               </h1>
               <p className="text-base lg:text-lg text-brand-text/90 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-                Automatize cobranças, elimine planilhas e tenha controle total da sua operação financeira em uma única plataforma.
+               Mais controle. Mais eficiência. Mais crescimento. Automatize cobranças, elimine planilhas e tenha controle total da sua operação financeira em uma única plataforma.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-2 justify-center lg:justify-start">
                 <Link to="/servicos" className="group px-8 py-4 bg-brand-text text-brand-bg font-bold rounded-xl shadow-lg hover:shadow-[#872a8c]/20 transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
@@ -291,15 +329,6 @@ function Home() {
                 </a>
               </div>
               <div className="pt-8 flex items-center justify-center lg:justify-start gap-8 border-t border-brand-text/10 mt-4">
-                <div>
-                  <p className="text-xl lg:text-2xl font-bold text-brand-text">150+</p>
-                  <p className="text-[10px] lg:text-xs text-brand-text/70 uppercase tracking-wider">Garantidoras</p>
-                </div>
-                <div className="w-px h-8 bg-brand-text/10"></div>
-                <div>
-                  <p className="text-xl lg:text-2xl font-bold text-brand-text">R$ 50M+</p>
-                  <p className="text-[10px] lg:text-xs text-brand-text/70 uppercase tracking-wider">Processados</p>
-                </div>
               </div>
             </div>
             <div className="relative lg:h-[600px] flex items-center justify-center transform-3d-parent mt-8 lg:mt-0 group lg:order-2 z-10">
@@ -398,7 +427,30 @@ function Home() {
             </div>
           </div>
         </section>
-
+   {/* --- GRID DE FUNCIONALIDADES --- */}
+        <section className="py-12">
+          <div className="container mx-auto px-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {features.map((feature, index) => (
+                <div 
+                  key={index}
+                  className="glass-card p-8 rounded-[2rem] hover:border-brand-primary/30 transition-all group hover:-translate-y-1"
+                >
+                  <div className="w-14 h-14 rounded-2xl bg-brand-primary/10 flex items-center justify-center text-brand-primary mb-6 group-hover:bg-brand-primary group-hover:text-white transition-all duration-300">
+                    <feature.icon size={28} />
+                  </div>
+                  <h3 className="text-xl font-bold text-brand-text mb-3 group-hover:text-brand-primary transition-colors">
+                    {feature.title}
+                  </h3>
+                  <p className="text-brand-muted text-sm leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+        
         {/* --- APP SECTION --- */}
         <section id="app" className="py-16 lg:py-20">
           <div className="container mx-auto px-4 lg:px-6">
@@ -406,8 +458,8 @@ function Home() {
               <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 lg:gap-0">
                 <div className="p-4 lg:p-16 relative z-10 text-center md:text-left">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#872a8c]/10 text-[#872a8c] text-xs font-bold uppercase tracking-wide mb-6"><Smartphone size={14} />Mobile App</div>
-                  <h2 className="font-heading text-3xl md:text-5xl font-bold text-brand-text mb-6 leading-tight">Leve a Vouch no <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-[#872a8c] to-[#4a90e2]">Seu Bolso</span></h2>
-                  <p className="text-brand-text/90 text-base lg:text-lg mb-8 lg:mb-10 leading-relaxed">Gerencie sua operação de qualquer lugar. Acesse dashboards, aprove acordos e monitore a cobrança na palma da mão.</p>
+                  <h2 className="font-heading text-3xl md:text-5xl font-bold text-brand-text mb-6 leading-tight">Aplicativo para <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-[#872a8c] to-[#4a90e2]">Moradores</span></h2>
+                  <p className="text-brand-text/90 text-base lg:text-lg mb-8 lg:mb-10 leading-relaxed">Para os moradores acessarem informações sobre sua unidade, acompanhamentos de boletos, comunicados e reservas de área comum de forma rápida e segura.</p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                     <button className="flex items-center justify-center gap-3 bg-brand-text text-brand-bg px-5 py-3 rounded-xl hover:opacity-90 transition-opacity"><Apple size={28} className="fill-current" /><div className="text-left"><div className="text-[10px] uppercase font-bold opacity-80">Download on the</div><div className="text-sm font-bold leading-none">App Store</div></div></button>
                     <button className="flex items-center justify-center gap-3 bg-transparent border border-brand-text/20 text-brand-text px-5 py-3 rounded-xl hover:bg-brand-text/5 transition-colors"><Play size={26} className="fill-current" /><div className="text-left"><div className="text-[10px] uppercase font-bold opacity-80">GET IT ON</div><div className="text-sm font-bold leading-none">Google Play</div></div></button>
