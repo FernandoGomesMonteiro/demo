@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { 
   Search, ArrowRight,
-  Landmark, Building2, MessageCircle, Database,
+  Landmark, Building2, MessageCircle,
   CheckCircle2, Clock, Plus
 } from 'lucide-react';
 
@@ -9,22 +9,40 @@ import {
 // Vermelho: #eb5757, Azul: #4a90e2, Verde: #38c88a, Amarelo: #f2c94c, Laranja: #f2994a
 const integrationsData = [
   // BANCOS (Vermelho #eb5757)
-  { id: 1, name: "Itaú", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Emissão de boletos, remessa e retorno automático (CNAB 240/400)." },
+  { id: 1, name: "Itaú", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração completa via API e troca de arquivos segura." },
   { id: 2, name: "Bradesco", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração completa via API e troca de arquivos segura." },
-  { id: 3, name: "Santander", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Webhooks para confirmação de pagamento em tempo real." },
-  { id: 4, name: "Banco do Brasil", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Homologado para PIX QR Code e Cobrança Registrada." },
-  { id: 5, name: "Banco Inter", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "API 100% digital sem necessidade de troca de arquivos." }, // Inter Laranja
-  { id: 6, name: "Sicoob", category: "Bancos", status: "beta", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração para cooperativas com taxas reduzidas." }, // Sicoob Verde
-  
+  { id: 3, name: "Santander", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração completa via API e troca de arquivos segura." },
+  { id: 4, name: "Iugu", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Homologado para PIX QR Code e Cobrança Registrada." },
+  { id: 5, name: "Fitbank", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração completa via API e troca de arquivos segura." }, 
+  { id: 6, name: "Sicredi", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração completa via API e troca de arquivos segura." },
+ { id: 7, name: "Asaas", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração completa via API e troca de arquivos segura." },
+ { id: 8, name: "Ailos", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração via CNAB 240" },
+ { id: 9, name: "Bancoob", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração via CNAB 240 / 400" },
+ { id: 15, name: "Banrisul", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração via CNAB 240 / 400" },
+{ id: 16, name: "Banco do Brasil", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração via CNAB 240 / 400" },
+{ id: 17, name: "Caixa Econômica", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração via CNAB 240 / 400" },
+{ id: 18, name: "BNB", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração via CNAB 400" },
+{ id: 19, name: "C6", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração via CNAB 400" },
+{ id: 20, name: "Cresol", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração via CNAB 400" },
+{ id: 21, name: "Delbank", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração via CNAB 400" },
+{ id: 22, name: "Inter", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração via CNAB 400" },
+{ id: 23, name: "Ourinvest", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração via CNAB 400" },
+{ id: 24, name: "Pine", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração via CNAB 400" },
+{ id: 25, name: "Rendimento", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração via CNAB 400" },
+{ id: 26, name: "Unicred", category: "Bancos", status: "active", icon: Landmark, color: "text-[#eb5757]", bg: "bg-[#eb5757]/10", desc: "Integração via CNAB 400" },
+
+
+
+
+
+
   // ERPs e SISTEMAS (Azul #4a90e2)
-  { id: 7, name: "Superlógica", category: "ERPs", status: "active", icon: Building2, color: "text-[#4a90e2]", bg: "bg-[#4a90e2]/10", desc: "Sincronização de unidades, condôminos e receitas." },
-  { id: 8, name: "Condomob", category: "ERPs", status: "active", icon: Building2, color: "text-[#4a90e2]", bg: "bg-[#4a90e2]/10", desc: "Leitura automática de balancetes e pastas digitais." },
-  { id: 9, name: "Group Software", category: "ERPs", status: "coming_soon", icon: Building2, color: "text-[#4a90e2]", bg: "bg-[#4a90e2]/10", desc: "Em breve: Integração nativa com Condomínio21." },
+  { id: 10, name: "SuperCash", category: "ERPs", status: "coming_soon", icon: Building2, color: "text-[#4a90e2]", bg: "bg-[#4a90e2]/10", desc: "Em breve: Integração nativa." },
+  { id: 11, name: "BI", category: "ERPs", status: "coming_soon", icon: Building2, color: "text-[#4a90e2]", bg: "bg-[#4a90e2]/10", desc: "Em breve: Integração nativa." },
   
   // COMUNICAÇÃO e OUTROS (Verde #38c88a e Roxo #872a8c)
-  { id: 10, name: "WhatsApp API", category: "Apps", status: "active", icon: MessageCircle, color: "text-[#38c88a]", bg: "bg-[#38c88a]/10", desc: "Envio de mensagens oficiais (Meta) sem risco de bloqueio." },
-  { id: 11, name: "Receita Federal", category: "Gov", status: "active", icon: Database, color: "text-[#872a8c]", bg: "bg-[#872a8c]/10", desc: "Consulta automática de CNPJ e regularidade fiscal." },
-  { id: 12, name: "Tribunais de Justiça", category: "Gov", status: "beta", icon: Database, color: "text-[#872a8c]", bg: "bg-[#872a8c]/10", desc: "Monitoramento de processos judiciais em nome do condomínio." },
+  { id: 13, name: "Gobbip", category: "Apps", status: "active", icon: MessageCircle, color: "text-[#38c88a]", bg: "bg-[#38c88a]/10", desc: "Envio de mensagens oficiais (Meta) sem risco de bloqueio." },
+  { id: 14, name: "Fisco", category: "Apps", status: "coming_soon", icon: Building2, color: "text-[#4a90e2]", bg: "bg-[#4a90e2]/10", desc: "Em breve: Integração nativa." },
 ];
 
 const categories = ["Todos", "Bancos", "ERPs", "Apps", "Gov"];

@@ -1,14 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { 
   X, ChevronLeft, ChevronRight, 
-  Cloud, Wallet, 
+  Cloud,
   Check, Play, Rocket, ArrowRight, 
   Smartphone, BarChart3, FileText, Zap, Apple, Monitor,
   Building2, Globe, Quote, Send, Bot, MessageSquare, Wrench, User,
   Headset,
-  Cpu,
   ShieldCheck
-  // Menu foi removido daqui
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -37,7 +35,7 @@ interface Message {
     sender: 'bot' | 'user';
 }
 
-// --- DADOS ---
+// --- DADOS (ÍCONES ATUALIZADOS) ---
 const features = [
   {
     icon: Cloud,
@@ -50,7 +48,7 @@ const features = [
     description: "Dados protegidos com criptografia de ponta. Conformidade total com a LGPD e auditorias constantes."
   },
   {
-    icon: Cpu,
+    icon: Monitor, // Alterado de Cpu para Monitor (Equipes/Trabalho Remoto)
     title: "Ideal para equipes híbridas ou remotas",
     description: "Perfeito para empresas que precisam de um modelo mais livre para trabalhar. Sem perder controle."
   },
@@ -60,9 +58,9 @@ const features = [
     description: "Acompanhe inadimplência, fluxo de caixa e performance da equipe em telas visuais e intuitivas."
   },
   {
-    icon: Wallet,
-    title: "",
-    description: "Fluxos automáticos de E-mail e WhatsApp. O sistema cobra o condômino de forma amigável."
+    icon: FileText, // Alterado de Wallet para FileText (Documentos)
+    title: "Alertas de documentos",
+    description: "Alertas automáticos sobre documentos a vencer ou vencidos, com acompanhamento de todos os prazos." 
   },
   {
     icon: Headset,
@@ -72,30 +70,30 @@ const features = [
 ];
 
 
-// --- DADOS ---
+// --- DADOS (MANTIDOS ORIGINAIS) ---
 const testimonialsData: Testimonial[] = [
   {
     id: 1,
     name: "Aline Marques",
     role: "CEO da Condopleno",
     image: "https://ui-avatars.com/api/?name=Aline+Marques&background=0f172a&color=fff",
-    content: "A Vouch sempre traz inovações e soluções que realmente fazem a diferença no nosso dia a dia. As ferramentas são simples de usar e automatizam processos que antes levavam horas da nossa equipe financeira.",
+    content: "Desde o começo a Vouch impressionou pelo atendimento, prestabilidade e agilidade, são impecáveis em atendimento, atendem muito bem nossa garantidora. Agradecemos todo seu esforço com nossa empresa!",
     stars: 5
   },
   {
     id: 2,
-    name: "Fernando Oliveira",
-    role: "Coord. Financeiro",
-    image: "https://ui-avatars.com/api/?name=Fernando+O&background=0f172a&color=fff",
-    content: "A automação de cobranças reduziu nossa inadimplência em 40% logo nos primeiros meses de uso. O suporte técnico é sempre disponível para resolver qualquer dúvida rapidamente.",
+    name: "Maellen",
+    role: "CEO da Condogold",
+    image: "https://ui-avatars.com/api/?name=Maellen+M&background=0f172a&color=fff",
+    content: "A Vouch transformou nossa forma de trabalhar e enriqueceu nossa garantidora com automação, produtividade e muito esforço.",
     stars: 5
   },
   {
     id: 3,
-    name: "Ricardo Silva",
-    role: "Gestor Predial",
-    image: "https://ui-avatars.com/api/?name=Ricardo+S&background=0f172a&color=fff",
-    content: "A integração bancária automática nos economizou horas de trabalho manual. A interface limpa ajuda muito na operação diária e no treinamento de novos colaboradores.",
+    name: "Thaylson Alves",
+    role: "CEO da Royal Money",
+    image: "https://ui-avatars.com/api/?name=Thaylson+Alves&background=0f172a&color=fff",
+    content: "Tive a oportunidade de contratar os serviços da Vouch soluções e fiquei extremamente satisfeito com o trabalho realizado. Desde o primeiro contato, a equipe demonstrou profissionalismo, competência e um profundo conhecimento na área de sistemas. O que mais me impressionou foi a capacidade de entender as necessidades específicas do meu negócio e oferecer soluções personalizadas que realmente agregaram valor. A implementação foi feita de forma ágil e eficiente, com um suporte técnico excepcional em todas as etapas do processo. Além disso, a Vouch soluções se mostrou sempre disponível para esclarecer dúvidas e oferecer orientações, o que foi fundamental para o sucesso do projeto. A transparência e a ética no relacionamento também foram pontos altos, reforçando a confiança na parceria. Recomendo os serviços da Vouch soluções a qualquer empresa que busque excelência, inovação e resultados concretos na área de RECEITA GARANTIDA. Certamente continuarei a contar com eles para futuros projetos, alias já são anos de crescimento aonde que a Vouch soluções nos ajudou a evoluir de uma maneira que sem eles não conseguiríamos atingir o patamar que estamos atualmente. Muito obrigado",
     stars: 5
   }
 ];
@@ -138,16 +136,16 @@ const featuresData: Feature[] = [
     title: "Comunicação Automatizada",
     subtitle: "Automatizada",
     description: "Envio de notificações, boletos e avisos de forma rápida e organizada.",
-    icon: Wallet,
+    icon: Send,
     hex: "#38c88a"
   }
 ];
 
 const statsData = [
-  { label: "Garantidoras Atendidas", value: "150+", icon: Building2, hex: "#4a90e2" },
-  { label: "Estados atendidos", value: " 23+", icon: BarChart3, hex: "#38c88a" },
-  { label: "Boletos Emitidos/Ano", value: "19.5M+", icon: FileText, hex: "#872a8c" },
-  { label: "condomínios", value: "7K+", icon: Globe, hex: "#f2994a" },
+  { label: "Garantidoras Atendidas", value: "150+", icon: Monitor, hex: "#4a90e2" },
+  { label: "Estados atendidos", value: " 23+", icon: Globe, hex: "#38c88a" },
+  { label: "Cidades atendidas", value: "31+", icon: Building2, hex: "#872a8c" },
+  { label: "condomínios", value: "7K+", icon: User, hex: "#f2994a" },
 ];
 
 function Home() {
@@ -155,11 +153,13 @@ function Home() {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  
+  // Estado para controlar o "Ler mais" dos depoimentos
+  const [isTextExpanded, setIsTextExpanded] = useState(false);
 
   // --- ESTADOS DO CHATBOT ---
   const [isSelectionModalOpen, setIsSelectionModalOpen] = useState(false); 
   const [isChatModalOpen, setIsChatModalOpen] = useState(false); 
-  // chatContext removido pois não estava sendo usado na lógica atual
   
   const [chatInput, setChatInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -180,6 +180,11 @@ function Home() {
     return () => clearTimeout(popupTimer);
   }, []);
 
+  // Reseta o texto expandido quando troca de slide
+  useEffect(() => {
+    setIsTextExpanded(false);
+  }, [activeTestimonial]);
+
   useEffect(() => {
     let interval: any;
     if (isAutoPlaying) {
@@ -193,7 +198,6 @@ function Home() {
   const handleStartChat = (type: 'comercial' | 'tecnico' | 'cliente') => {
     setIsSelectionModalOpen(false);
     setIsChatModalOpen(true);
-    // setChatContext(type) removido
 
     let initialMsg = "";
     if (type === 'comercial') {
@@ -427,29 +431,7 @@ function Home() {
             </div>
           </div>
         </section>
-   {/* --- GRID DE FUNCIONALIDADES --- */}
-        <section className="py-12">
-          <div className="container mx-auto px-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {features.map((feature, index) => (
-                <div 
-                  key={index}
-                  className="glass-card p-8 rounded-[2rem] hover:border-brand-primary/30 transition-all group hover:-translate-y-1"
-                >
-                  <div className="w-14 h-14 rounded-2xl bg-brand-primary/10 flex items-center justify-center text-brand-primary mb-6 group-hover:bg-brand-primary group-hover:text-white transition-all duration-300">
-                    <feature.icon size={28} />
-                  </div>
-                  <h3 className="text-xl font-bold text-brand-text mb-3 group-hover:text-brand-primary transition-colors">
-                    {feature.title}
-                  </h3>
-                  <p className="text-brand-muted text-sm leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+  
         
         {/* --- APP SECTION --- */}
         <section id="app" className="py-16 lg:py-20">
@@ -484,20 +466,76 @@ function Home() {
           </div>
         </section>
 
-        {/* --- DEPOIMENTOS --- */}
+
+
+         {/* --- GRID DE FUNCIONALIDADES --- */}
+        <section className="py-12">
+          <div className="container mx-auto px-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {features.map((feature, index) => (
+                <div 
+                  key={index}
+                  className="glass-card p-8 rounded-[2rem] hover:border-brand-primary/30 transition-all group hover:-translate-y-1"
+                >
+                  <div className="w-14 h-14 rounded-2xl bg-brand-primary/10 flex items-center justify-center text-brand-primary mb-6 group-hover:bg-brand-primary group-hover:text-white transition-all duration-300">
+                    <feature.icon size={28} />
+                  </div>
+                  <h3 className="text-xl font-bold text-brand-text mb-3 group-hover:text-brand-primary transition-colors">
+                    {feature.title}
+                  </h3>
+                  <p className="text-brand-muted text-sm leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* --- DEPOIMENTOS (COM LÓGICA DE TRUNCAR TEXTO E "LER MAIS") --- */}
         <section className="py-16 lg:py-20 pb-32 relative border-t border-brand-text/5 overflow-hidden">
           <div className="container mx-auto px-6 max-w-6xl text-center">
             <h2 className="font-heading text-3xl font-bold mb-12">Quem usa, <span className="text-[#872a8c]">recomenda</span></h2>
             <div className="relative h-[450px] md:h-[500px] flex items-center justify-center perspective-1000">
               {testimonialsData.map((testimonial, index) => {
                 const cardStyle = getTestimonialStyle(index);
+                
+                const showFullText = isTextExpanded;
+                const isLongText = testimonial.content.length > 200; // Define limite para aparecer o botão
+
                 return (
                   <div key={testimonial.id} onClick={() => { if (index !== activeTestimonial) setActiveTestimonial(index); }} className={`absolute w-full max-w-4xl transition-all duration-700 ease-in-out flex flex-col items-center justify-center ${cardStyle}`}>
-                    <div className="bg-brand-bg border border-brand-text/5 shadow-2xl rounded-[2rem] lg:rounded-[2.5rem] p-8 lg:p-16 max-w-[90vw] lg:max-w-4xl w-full relative mx-auto overflow-hidden">
+                    <div className="bg-brand-bg border border-brand-text/5 shadow-2xl rounded-[2rem] lg:rounded-[2.5rem] p-8 lg:p-16 max-w-[90vw] lg:max-w-4xl w-full relative mx-auto overflow-hidden flex flex-col justify-between h-full max-h-[450px]">
                       <Quote size={60} className="absolute top-6 left-6 lg:top-10 lg:left-10 text-[#872a8c]/10 fill-current -z-0" />
-                      <div className="relative z-10 pt-4 lg:pt-8">
-                        <p className="text-brand-text/90 text-sm md:text-base text-justify leading-relaxed mb-8 lg:mb-10 font-medium">"{testimonial.content}"</p>
-                        <div className="flex items-center gap-4 justify-center border-t border-brand-text/5 pt-6 lg:pt-8"><img src={testimonial.image} alt={testimonial.name} className="w-12 h-12 lg:w-14 lg:h-14 rounded-full object-cover border-2 border-[#872a8c]/30" /><div className="text-left"><div className="font-bold text-brand-text text-sm lg:text-base">{testimonial.name}</div><div className="text-[#872a8c] text-[10px] lg:text-xs font-bold uppercase tracking-wider">{testimonial.role}</div></div></div>
+                      
+                      <div className="relative z-10 pt-4 lg:pt-8 flex flex-col h-full">
+                        {/* TEXTO COM TRUNCATE (DISFARCE) E SCROLL SUAVE SE ABERTO */}
+                        <div className={`transition-all duration-300 ${!showFullText ? 'overflow-hidden' : 'overflow-y-auto pr-2 scrollbar-thin max-h-[250px]'}`}>
+                             <p className={`text-brand-text/90 text-sm md:text-base text-justify leading-relaxed font-medium ${!showFullText ? 'line-clamp-4 md:line-clamp-5' : ''}`}>
+                                "{testimonial.content}"
+                             </p>
+                        </div>
+
+                        {/* BOTÃO LER MAIS (Só aparece se o texto for grande) */}
+                        {isLongText && (
+                            <button 
+                                onClick={(e) => {
+                                    e.stopPropagation(); // Evita clicar no card e trocar slide
+                                    setIsTextExpanded(!isTextExpanded);
+                                }}
+                                className="text-[#872a8c] text-xs font-bold uppercase tracking-wider hover:underline mt-2 self-start focus:outline-none"
+                            >
+                                {isTextExpanded ? 'Ler menos' : 'Ler mais'}
+                            </button>
+                        )}
+
+                        <div className="flex items-center gap-4 justify-center border-t border-brand-text/5 pt-6 lg:pt-8 mt-auto">
+                            <img src={testimonial.image} alt={testimonial.name} className="w-12 h-12 lg:w-14 lg:h-14 rounded-full object-cover border-2 border-[#872a8c]/30" />
+                            <div className="text-left">
+                                <div className="font-bold text-brand-text text-sm lg:text-base">{testimonial.name}</div>
+                                <div className="text-[#872a8c] text-[10px] lg:text-xs font-bold uppercase tracking-wider">{testimonial.role}</div>
+                            </div>
+                        </div>
                       </div>
                     </div>
                   </div>

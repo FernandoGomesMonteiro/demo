@@ -1,24 +1,39 @@
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 import { 
-  Zap, ShieldCheck, Brain, BarChart3, 
-  Globe2, Lock, Smartphone, Cloud, 
+  Zap, 
+  Globe2, Smartphone, Cloud, 
   Layout, Clock, Database, 
-  Layers, CreditCard, Headset, Check, X as XIcon, Minus, Activity,
+  Layers, CreditCard, Headset, Check, X as XIcon, Minus,
   LayoutDashboard, Banknote, Gavel, ArrowRight, MessageCircle, FileText, Settings,
-  Server
+  BarChart3,
+  ChartColumnIncreasing,
+  Send,
+  MailCheck,
+  BellPlus,
+  Percent,
+  Scale,
+  HandCoins,
+  Receipt,
+  FilePlusCorner,
+  FolderPlus,
+  Calculator,
+  Users,
+  FileHeadphone,
+  Building2,
 } from 'lucide-react';
 
-// --- DADOS DA ÓRBITA (O SOL) - CORES DA PALETA APLICADAS ---
-const orbitIcons = [
-  { id: 0, icon: Brain, color: "text-[#872a8c]", border: "border-[#872a8c]", shadow: "shadow-[#872a8c]/50", bg: "bg-[#872a8c]/10", label: "IA Vouch", desc: "Decisão automática de crédito baseada em comportamento." },
-  { id: 1, icon: ShieldCheck, color: "text-[#38c88a]", border: "border-[#38c88a]", shadow: "shadow-[#38c88a]/50", bg: "bg-[#38c88a]/10", label: "Blindagem", desc: "Criptografia de ponta a ponta e segurança bancária." },
-  { id: 2, icon: Cloud, color: "text-[#4a90e2]", border: "border-[#4a90e2]", shadow: "shadow-[#4a90e2]/50", bg: "bg-[#4a90e2]/10", label: "Cloud", desc: "Acesso 100% web, de qualquer lugar, sem instalações." },
-  { id: 3, icon: Smartphone, color: "text-[#b77fba]", border: "border-[#b77fba]", shadow: "shadow-[#b77fba]/50", bg: "bg-[#b77fba]/10", label: "Mobile", desc: "App Nativo iOS e Android para máxima performance." },
-  { id: 4, icon: Zap, color: "text-[#f2c94c]", border: "border-[#f2c94c]", shadow: "shadow-[#f2c94c]/50", bg: "bg-[#f2c94c]/10", label: "Rápido", desc: "Baixa e conciliação bancária em tempo real." },
-  { id: 5, icon: BarChart3, color: "text-[#4a90e2]", border: "border-[#4a90e2]", shadow: "shadow-[#4a90e2]/50", bg: "bg-[#4a90e2]/10", label: "Dados", desc: "Dashboards analíticos completos para gestão." },
-  { id: 6, icon: Lock, color: "text-[#eb5757]", border: "border-[#eb5757]", shadow: "shadow-[#eb5757]/50", bg: "bg-[#eb5757]/10", label: "LGPD", desc: "Conformidade total com a Lei Geral de Proteção de Dados." },
-  { id: 7, icon: Globe2, color: "text-[#f2994a]", border: "border-[#f2994a]", shadow: "shadow-[#f2994a]/50", bg: "bg-[#f2994a]/10", label: "Global", desc: "Arquitetura preparada para múltiplas filiais." },
-];
+// --- DADOS DA ÓRBITA (O SOL) - COMENTADO ---
+// const orbitIcons = [
+//   { id: 0, icon: Brain, color: "text-[#872a8c]", border: "border-[#872a8c]", shadow: "shadow-[#872a8c]/50", bg: "bg-[#872a8c]/10", label: "IA Vouch", desc: "Decisão automática de crédito baseada em comportamento." },
+//   { id: 1, icon: ShieldCheck, color: "text-[#38c88a]", border: "border-[#38c88a]", shadow: "shadow-[#38c88a]/50", bg: "bg-[#38c88a]/10", label: "Blindagem", desc: "Criptografia de ponta a ponta e segurança bancária." },
+//   { id: 2, icon: Cloud, color: "text-[#4a90e2]", border: "border-[#4a90e2]", shadow: "shadow-[#4a90e2]/50", bg: "bg-[#4a90e2]/10", label: "Cloud", desc: "Acesso 100% web, de qualquer lugar, sem instalações." },
+//   { id: 3, icon: Smartphone, color: "text-[#b77fba]", border: "border-[#b77fba]", shadow: "shadow-[#b77fba]/50", bg: "bg-[#b77fba]/10", label: "Mobile", desc: "App Nativo iOS e Android para máxima performance." },
+//   { id: 4, icon: Zap, color: "text-[#f2c94c]", border: "border-[#f2c94c]", shadow: "shadow-[#f2c94c]/50", bg: "bg-[#f2c94c]/10", label: "Rápido", desc: "Baixa e conciliação bancária em tempo real." },
+//   { id: 5, icon: BarChart3, color: "text-[#4a90e2]", border: "border-[#4a90e2]", shadow: "shadow-[#4a90e2]/50", bg: "bg-[#4a90e2]/10", label: "Dados", desc: "Dashboards analíticos completos para gestão." },
+//   { id: 6, icon: Lock, color: "text-[#eb5757]", border: "border-[#eb5757]", shadow: "shadow-[#eb5757]/50", bg: "bg-[#eb5757]/10", label: "LGPD", desc: "Conformidade total com a Lei Geral de Proteção de Dados." },
+//   { id: 7, icon: Globe2, color: "text-[#f2994a]", border: "border-[#f2994a]", shadow: "shadow-[#f2994a]/50", bg: "bg-[#f2994a]/10", label: "Global", desc: "Arquitetura preparada para múltiplas filiais." },
+// ];
+
 
 // --- DADOS DA LISTA COMPARATIVA ---
 const comparisonData = [
@@ -31,12 +46,39 @@ const comparisonData = [
       { name: "Backup Automático", icon: Database, hasVouch: true, hasMarket: false, labelMarket: "Manual" },
     ]
   },
+    {
+    category: "Funcionalidades",
+    items: [
+      { name: "Lançamentos de taxas (Rateio)", icon: Layout, hasVouch: true, hasMarket: "partial", labelMarket: "offline" },
+      { name: "Detalhamento de despesas no boleto (Balancete do rateio)", icon: ChartColumnIncreasing, hasVouch: true, hasMarket: "partial", labelMarket: "Ticket 48h" },
+      { name: "Envio de boletos por E-mail", icon: MailCheck, hasVouch: true, hasMarket: "partial", labelMarket: "Ticket 48h" },
+      { name: "Envio de boletos por WhatsApp", icon: Send, hasVouch: true, hasMarket: "partial", labelMarket: "Ticket 48h" },
+      { name: "Pagamentos por Pix, Linha digitavel e Cartão de crédito", icon: CreditCard, hasVouch: true, hasMarket: "partial", labelMarket: "Ticket 48h" },
+      { name: "Inclusão de extrato bancário (Conciliação Bancária)", icon: Banknote , hasVouch: true, hasMarket: "partial", labelMarket: "Ticket 48h" },
+      { name: "Alerta de documentos", icon: BellPlus, hasVouch: true, hasMarket: "partial", labelMarket: "Ticket 48h" },
+      { name: "Nota fiscal integrada", icon: Percent, hasVouch: true, hasMarket: "partial", labelMarket: "Ticket 48h" },
+      { name: "Sistema juridico completo", icon: Scale, hasVouch: true, hasMarket: "partial", labelMarket: "Ticket 48h" },
+      { name: "Módulo de Compra de inadimplência", icon: HandCoins, hasVouch: true, hasMarket: false, labelMarket:  "Manual" },
+      { name: "Simulação de acordos", icon: Receipt , hasVouch: true, hasMarket: false, labelMarket:  "Manual" },
+      { name: "Geração de documentos automatizados", icon: FilePlusCorner, hasVouch: true, hasMarket: false, labelMarket:  "Manual" },
+      { name: "Cadastro facilitado de unidades e condomínios", icon: FolderPlus, hasMarket: false, labelMarket:  "Manual" },
+      { name: "Rastreio de unidades elegiveis para o jurídico ", icon: Gavel , hasMarket: false, labelMarket:  "Manual" },
+      { name: "Personalização de fórmulas e tabelas de cálculo", icon: Calculator, hasMarket: false, labelMarket:  "Manual" },
+      { name: "Configurações e acompanhamento de metas", icon: Users, hasVouch: true, hasMarket: false, labelMarket:  "Manual" },
+      { name: "Módulo de cobrança ", icon: FileHeadphone, hasVouch: true, hasMarket: false, labelMarket:  "Manual" },
+      { name: "Relatórios detalhados", icon: BarChart3, hasVouch: true, hasMarket: "partial", labelMarket: "Ticket 48h" },
+
+
+      
+      { name: "Updates Grátis", icon: Cloud, hasVouch: true, hasMarket: false, labelMarket: "Pago" },
+    ]
+  },
   {
     category: "Inteligência Financeira",
     items: [
       { name: "Baixa Bancária (API)", icon: Zap, hasVouch: true, hasMarket: false, labelMarket: "Arquivo CNAB" },
       { name: "Régua Cobrança (Zap/SMS)", icon: Layers, hasVouch: true, hasMarket: "partial", labelMarket: "Apenas E-mail" },
-      { name: "Split de Pagamento", icon: CreditCard, hasVouch: true, hasMarket: false, labelMarket: "Externo" },
+      { name: "Integrações com Bancos", icon: CreditCard, hasVouch: true, hasMarket: false, labelMarket: "Externo" },
     ]
   },
   {
@@ -50,51 +92,48 @@ const comparisonData = [
 
 // --- DADOS DOS PARCEIROS (CARROSSEL) ---
 const partners = [
-  { name: "Banco Central", icon: Banknote },
-  { name: "Tribunal de Justiça", icon: Gavel },
-  { name: "WhatsApp Business", icon: MessageCircle },
-  { name: "AWS Cloud", icon: Cloud },
-  { name: "Serasa Experian", icon: Database },
-  { name: "Google Cloud", icon: Server },
-  { name: "PJBank", icon: CreditCard },
-  { name: "Itaú Empresas", icon: Banknote },
-];
+  { name: "SuperCash", icon: Building2 },
+  { name: "BI Desk", icon: BarChart3 },
+  { name: "Gobbip", icon: MessageCircle },
+  { name: "Fisco", icon: FileText },
+ ];
+
 
 function Features() {
-  const [activeId, setActiveId] = useState(0);
+  // const [activeId, setActiveId] = useState(0);
 
   // Rotação Automática do Sol
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveId((current) => (current + 1) % orbitIcons.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setActiveId((current) => (current + 1) % orbitIcons.length);
+  //   }, 3000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   // Lógica 2D Simples
-  const containerRotation = activeId * -45;
-  const activeItem = orbitIcons[activeId];
+  // const containerRotation = activeId * -45;
+  // const activeItem = orbitIcons[activeId];
 
   return (
     <div className="min-h-screen bg-brand-bg text-brand-text font-sans selection:bg-brand-primary overflow-x-hidden relative transition-colors duration-500 w-full">
       
-      {/* Background Decorativo Geral (Usando a paleta) */}
+      {/* Background Decorativo Geral */}
       <div className="fixed inset-0 pointer-events-none z-0 opacity-30">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#872a8c]/10 rounded-full blur-[120px]"></div>
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#4a90e2]/10 rounded-full blur-[120px]"></div>
       </div>
 
       <style>{`
-        /* Animações e Utilitários */
+        /* Animações */
         @keyframes scan-line { 0% { top: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
         @keyframes chart-grow { from { height: 10%; } to { height: 70%; } }
         @keyframes float-msg { 0% { transform: translateY(20px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
         @keyframes spin-gear { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
-        /* Flutuação suave */
+        /* Flutuação */
         @keyframes float-browser { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
         
-        /* CORREÇÃO DO CARROSSEL INFINITO */
+        /* Carrossel Infinito */
         @keyframes scroll-infinite {
           0% { transform: translateX(0); }
           100% { transform: translateX(calc(-100% / 3)); }
@@ -102,7 +141,6 @@ function Features() {
         .animate-scroll { animation: scroll-infinite 40s linear infinite; }
         .pause-hover:hover { animation-play-state: paused; }
 
-        /* MÁSCARA CSS PARA FADE DO CARROSSEL */
         .carousel-fade-mask {
           -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
           mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
@@ -119,74 +157,96 @@ function Features() {
         .group:hover .animate-gear { animation: spin-gear 4s linear infinite; }
         .pipeline-glow { box-shadow: 0 0 15px 2px rgba(124, 58, 237, 0.4); }
 
-        /* Animação suave para a entrada de texto */
-        @keyframes fade-in-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-in { animation: fade-in-up 0.5s ease-out forwards; }
+        @keyframes fade-in-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- ANIMAÇÃO DO SLOT (NECESSÁRIA PARA O SLOT COLUMNS) --- */
+        @keyframes slot-scroll-pause {
+          0%, 20% { transform: translateY(0); }
+          25%, 45% { transform: translateY(-25%); }
+          50%, 70% { transform: translateY(-50%); }
+          75%, 100% { transform: translateY(-75%); }
+        }
+        .animate-slot {
+          animation: slot-scroll-pause 8s cubic-bezier(0.8, 0, 0.2, 1) infinite;
+          will-change: transform;
+          transform: translateZ(0);
+        }
       `}</style>
 
       {/* Container Principal */}
       <div className="container mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10">
 
-        {/* --- HERO SECTION: SOL 2D --- */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 mb-20">
+        {/* --- HERO SECTION: PORTAL DO CLIENTE (IMAGEM CORRIGIDA COM MOLDURA) --- */}
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 mb-20 pt-10">
           <div className="lg:w-1/2 space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-text/10 bg-brand-text/5 text-xs font-bold uppercase tracking-widest text-brand-primary">
-              <Activity size={14} /> Funcionalidades
+              <Globe2 size={14} /> principais funcionalidades do Vouch
             </div>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight text-brand-text">
-              O Núcleo da <br />
+            <h1 className="text-4xl md:text-6xl font-black leading-tight text-brand-text">
+              Fazemos toda a diferença no dia a dia: <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">
-                Sua Operação
+                Autonomia Total.
               </span>
             </h1>
-            <p className="text-lg text-brand-muted max-w-lg font-light">
-              Conecte todas as pontas da sua garantidora em um único ecossistema inteligente.
+            <p className="text-lg text-brand-muted max-w-lg font-light leading-relaxed">
+              Nosso sistema foi desenvolvido para que a sua equipe tenha total controle e autonomia sobre as operações financeiras do condomínio, simplificando processos e aumentando a eficiência.
             </p>
-            <div className={`mt-8 p-6 md:p-8 rounded-2xl bg-brand-bg border transition-all duration-500 shadow-xl relative overflow-hidden ${activeItem.border.replace('border-', 'border-opacity-30 border-')}`}>
-               <div className={`absolute left-0 top-0 bottom-0 w-2 ${activeItem.bg.replace('/10', '')} transition-colors duration-500`}></div>
-               <div className="flex flex-col gap-4">
-                 <div className="flex items-center gap-4">
-                    <div className={`p-3 rounded-xl transition-colors duration-300 ${activeItem.bg} ${activeItem.color}`}>
-                        {(() => { const Icon = activeItem.icon; return <Icon size={32} />; })()}
-                    </div>
-                    <h3 className={`text-2xl font-bold transition-colors duration-300 ${activeItem.color}`}>
-                        {activeItem.label}
-                    </h3>
-                 </div>
-                 <div key={activeId} className="animate-fade-in">
-                   <p className="text-lg text-brand-muted leading-relaxed">
-                     {activeItem.desc}
-                   </p>
-                 </div>
-               </div>
-            </div>
+            
+            <ul className="space-y-4 mt-6">
+                <li className="flex items-center gap-3 text-brand-text font-medium">
+                  <div className="p-1 rounded-full bg-[#38c88a]/20 text-[#38c88a]"><Check size={14} /></div>
+                  Emissão de 2ª Via de Boleto
+                </li>
+                <li className="flex items-center gap-3 text-brand-text font-medium">
+                  <div className="p-1 rounded-full bg-[#38c88a]/20 text-[#38c88a]"><Check size={14} /></div>
+                  Prestação de Contas Transparente
+                </li>
+                <li className="flex items-center gap-3 text-brand-text font-medium">
+                  <div className="p-1 rounded-full bg-[#38c88a]/20 text-[#38c88a]"><Check size={14} /></div>
+                  Reserva de Áreas Comuns
+                </li>
+            </ul>
           </div>
-          <div className="lg:w-1/2 relative h-[320px] md:h-[450px] w-full flex items-center justify-center overflow-hidden">
-            <div className="absolute z-20 w-24 h-24 md:w-32 md:h-32 bg-brand-bg rounded-full border-4 border-brand-text/5 shadow-2xl flex items-center justify-center">
-               <span className="font-heading font-black text-xl md:text-2xl text-brand-text tracking-tighter">VOUCH</span>
-            </div>
-            <div className="absolute w-full h-full flex items-center justify-center transition-transform duration-700 cubic-bezier(0.25, 1, 0.5, 1)" style={{ transform: `rotate(${containerRotation}deg)` }}>
-              {orbitIcons.map((item, index) => {
-                const angle = (360 / orbitIcons.length) * index;
-                const isActive = activeId === index;
-                const counterRotation = -angle - containerRotation;
-                return (
-                  <div key={item.id} className="absolute top-1/2 left-1/2 h-0 flex items-center justify-end origin-center" style={{ width: `min(340px, 80vw)`, transform: `translate(-50%, -50%) rotate(${angle}deg)` }}>
-                    <div className={`absolute right-0 top-1/2 w-[50%] h-[1px] origin-right transition-all duration-500 ${isActive ? 'bg-brand-text/30' : 'bg-brand-text/5'}`}></div>
-                    <div className="absolute right-0 translate-x-[50%]"> 
-                      <div className={`relative w-10 h-10 md:w-14 md:h-14 rounded-2xl border flex flex-col items-center justify-center transition-all duration-500 bg-brand-bg ${isActive ? `scale-125 z-10 ${item.border} ${item.shadow} shadow-lg` : `border-brand-text/10 opacity-70`}`} style={{ transform: `rotate(${counterRotation}deg)` }}>
-                        <item.icon size={18} className={`md:w-6 md:h-6 ${item.color}`} />
-                      </div>
+
+          <div className="lg:w-1/2 relative browser-3d group cursor-default z-10 w-full">
+              {/* Glow de fundo */}
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/40 to-brand-secondary/40 blur-[80px] -z-10 rounded-[3rem] transform group-hover:scale-105 transition-transform duration-700 opacity-70"></div>
+              
+              {/* Container Principal da Moldura */}
+              <div className="rounded-[2rem] overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.5)] transform transition-all duration-500 group-hover:scale-[1.01] bg-brand-bg border border-brand-text/10 relative z-20">
+                  
+                  {/* Cabeçalho do Navegador (Bolinhas) */}
+                  <div className="h-8 bg-brand-text/5 flex items-center px-4 border-b border-brand-text/10 relative z-20">
+                    <div className="flex gap-1.5">
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57] border border-[#e0443e]"></div>
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e] border border-[#d89e24]"></div>
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#28c840] border border-[#1aab29]"></div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+
+                  {/* Container da Imagem */}
+                  <div className="relative bg-brand-bg">
+                      {/* Overlay sutil para blending */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-20 pointer-events-none z-20"></div>
+                      {/* IMAGEM SEM ZOOM FORÇADO */}
+                      <img
+                        src="/Supercash.png"
+                        alt="Portal do Cliente Vouch"
+                        className="w-full h-auto object-cover relative z-10"
+                      />
+                  </div>
+              </div>
           </div>
         </div>
 
+        {/* --- CÓDIGO DO SOL (COMENTADO) --- */}
+        {/* <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 mb-20"> . .. </div> */}
+
+
+
         {/* --- LISTA COMPARATIVA --- */}
-        <div className="w-full mb-20">
+        <div className="w-full mb-20 mt-20">
           <div className="text-center mb-10">
             <h2 className="text-3xl font-bold text-brand-text mb-2">Checklist de Comparação</h2>
             <p className="text-brand-muted">Entenda visualmente a diferença de entrega.</p>
@@ -253,7 +313,7 @@ function Features() {
                 <div className="absolute inset-0 bg-gradient-to-b from-brand-primary via-purple-500 to-transparent w-full animate-pulse opacity-50"></div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 relative z-10">
-                {/* Card 1 */}
+                {/* Cards do Pipeline (Mantidos) */}
                 <div className="group relative bg-brand-bg border border-brand-text/10 rounded-[2rem] p-1 shadow-lg hover:border-brand-primary/40 transition-all duration-300 md:mr-12">
                     <div className="hidden md:block absolute top-1/2 -right-14 w-14 h-[2px] bg-brand-text/10 group-hover:bg-brand-primary/50 transition-colors"><div className="absolute right-0 -top-1.5 w-3 h-3 rounded-full border-2 border-brand-bg bg-brand-text/20 group-hover:bg-brand-primary group-hover:pipeline-glow"></div></div>
                     <div className="h-full bg-brand-text/[0.02] rounded-[1.8rem] p-6 md:p-8 overflow-hidden relative">
@@ -261,7 +321,6 @@ function Features() {
                         <div className="mt-8 h-32 flex items-end justify-between gap-3 px-2 border-b border-l border-brand-text/10"><div className="w-full bg-brand-primary/20 rounded-t h-[10%] animate-chart-1 group-hover:h-[40%] transition-all duration-500"></div><div className="w-full bg-brand-primary/40 rounded-t h-[20%] animate-chart-2 group-hover:h-[80%] transition-all duration-500"></div><div className="w-full bg-brand-primary/60 rounded-t h-[15%] animate-chart-3 group-hover:h-[60%] transition-all duration-500"></div><div className="w-full bg-brand-primary rounded-t h-[30%] group-hover:h-[95%] transition-all duration-500 relative group-hover:pipeline-glow"></div></div>
                     </div>
                 </div>
-                {/* Card 2 */}
                 <div className="group relative bg-brand-bg border border-brand-text/10 rounded-[2rem] p-1 shadow-lg hover:border-[#38c88a]/40 transition-all duration-300 md:mt-24 md:ml-12">
                     <div className="hidden md:block absolute top-1/2 -left-14 w-14 h-[2px] bg-brand-text/10 group-hover:bg-[#38c88a]/50 transition-colors"><div className="absolute left-0 -top-1.5 w-3 h-3 rounded-full border-2 border-brand-bg bg-brand-text/20 group-hover:bg-[#38c88a]"></div></div>
                     <div className="h-full bg-brand-text/[0.02] rounded-[1.8rem] p-6 md:p-8 overflow-hidden relative">
@@ -269,7 +328,6 @@ function Features() {
                         <div className="mt-4 space-y-3 relative h-32 flex flex-col justify-end"><div className="bg-brand-text/5 p-3 rounded-r-xl rounded-tl-xl text-xs text-brand-muted w-3/4 animate-msg-1 opacity-0 group-hover:opacity-100 transition-opacity">Olá, seu boleto vence hoje. 📄</div><div className="bg-[#38c88a]/10 p-3 rounded-l-xl rounded-tr-xl text-xs text-[#38c88a] w-2/3 ml-auto animate-msg-2 opacity-0 group-hover:opacity-100 transition-opacity delay-300">Pago! Obrigado. ✅</div></div>
                     </div>
                 </div>
-                {/* Card 3 */}
                 <div className="group relative bg-brand-bg border border-brand-text/10 rounded-[2rem] p-1 shadow-lg hover:border-[#4a90e2]/40 transition-all duration-300 md:mr-12">
                     <div className="hidden md:block absolute top-1/2 -right-14 w-14 h-[2px] bg-brand-text/10 group-hover:bg-[#4a90e2]/50 transition-colors"><div className="absolute right-0 -top-1.5 w-3 h-3 rounded-full border-2 border-brand-bg bg-brand-text/20 group-hover:bg-[#4a90e2]"></div></div>
                     <div className="h-full bg-brand-text/[0.02] rounded-[1.8rem] p-6 md:p-8 overflow-hidden relative">
@@ -277,7 +335,6 @@ function Features() {
                         <div className="mt-4 relative bg-brand-bg border border-brand-text/10 h-32 rounded-lg p-3 flex flex-col gap-2 group-hover:border-[#4a90e2]/30 transition-colors overflow-hidden"><div className="h-2 w-3/4 bg-brand-text/10 rounded"></div><div className="h-2 w-1/2 bg-brand-text/10 rounded"></div><div className="h-2 w-full bg-brand-text/10 rounded"></div><div className="absolute left-0 w-full h-[2px] bg-[#4a90e2] shadow-[0_0_15px_rgba(59,130,246,1)] opacity-0 group-hover:opacity-100 group-hover:animate-scan"></div><div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity delay-1000 duration-500 bg-brand-bg/80 backdrop-blur-sm"><div className="w-12 h-12 rounded-full bg-[#4a90e2] text-white flex items-center justify-center scale-0 group-hover:scale-100 transition-transform delay-1000 shadow-xl"><Check size={24} strokeWidth={3} /></div></div></div>
                     </div>
                 </div>
-                {/* Card 4 */}
                 <div className="group relative bg-brand-bg border border-brand-text/10 rounded-[2rem] p-1 shadow-lg hover:border-[#f2994a]/40 transition-all duration-300 md:mt-24 md:ml-12">
                     <div className="hidden md:block absolute top-1/2 -left-14 w-14 h-[2px] bg-brand-text/10 group-hover:bg-[#f2994a]/50 transition-colors"><div className="absolute left-0 -top-1.5 w-3 h-3 rounded-full border-2 border-brand-bg bg-brand-text/20 group-hover:bg-[#f2994a]"></div></div>
                     <div className="h-full bg-brand-text/[0.02] rounded-[1.8rem] p-6 md:p-8 overflow-hidden relative">
@@ -288,54 +345,13 @@ function Features() {
             </div>
         </div>
 
-        {/* --- ÁREA 1: FOTO DO SISTEMA --- */}
-        <div className="w-full mb-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="order-2 lg:order-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/5 text-xs font-bold uppercase tracking-widest text-brand-primary mb-6">
-                <Globe2 size={14} /> Web View
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-brand-text mb-6 leading-tight">
-                Portal do Cliente: <br/> Autonomia Total.
-              </h2>
-              <p className="text-brand-muted text-lg mb-8 leading-relaxed">
-                Reduza ligações e e-mails. Seus clientes resolvem tudo sozinhos em um portal intuitivo e 100% responsivo.
-              </p>
-              <ul className="space-y-4">
-                <li className="flex items-center gap-3 text-brand-text font-medium">
-                  <div className="p-1 rounded-full bg-[#38c88a]/20 text-[#38c88a]"><Check size={14} /></div>
-                  Emissão de 2ª Via de Boleto
-                </li>
-                <li className="flex items-center gap-3 text-brand-text font-medium">
-                  <div className="p-1 rounded-full bg-[#38c88a]/20 text-[#38c88a]"><Check size={14} /></div>
-                  Prestação de Contas Transparente
-                </li>
-                <li className="flex items-center gap-3 text-brand-text font-medium">
-                  <div className="p-1 rounded-full bg-[#38c88a]/20 text-[#38c88a]"><Check size={14} /></div>
-                  Reserva de Áreas Comuns
-                </li>
-              </ul>
-            </div>
-            <div className="order-1 lg:order-1 browser-3d group cursor-default relative z-10 w-full">
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/30 to-brand-secondary/30 blur-[60px] -z-10 rounded-[3rem] transform group-hover:scale-110 transition-transform duration-700 opacity-60"></div>
-              <div className="rounded-[2.5rem] overflow-hidden shadow-2xl shadow-black/50 transform transition-all duration-500 group-hover:scale-[1.02] bg-brand-bg/50 backdrop-blur-sm relative">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-50 pointer-events-none z-20"></div>
-                  <img
-                    src="https://placehold.co/1600x1000/1a102c/e7d4e8.png?text=Portal+Cliente+Vouch+(Substituir)"
-                    alt="Portal do Cliente Vouch"
-                    className="w-full h-auto object-cover relative z-10"
-                  />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* --- ÁREA 2: FOTO DO SISTEMA ESPELHADA --- */}
+        
+        {/* --- ÁREA 2: FOTO DO SISTEMA ESPELHADA (App Mobile) (IMAGEM CORRIGIDA COM MOLDURA) --- */}
         <div className="w-full mb-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div className="order-2 lg:order-1">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-secondary/5 text-xs font-bold uppercase tracking-widest text-brand-secondary mb-6">
-                <Smartphone size={14} /> App Mobile
+                <Smartphone size={14} /> Acesso Web
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-brand-text mb-6 leading-tight">
                 Gestão na Palma<br/> da Mão.
@@ -346,27 +362,44 @@ function Features() {
               <ul className="space-y-4">
                 <li className="flex items-center gap-3 text-brand-text font-medium">
                   <div className="p-1 rounded-full bg-brand-secondary/20 text-brand-secondary"><Check size={14} /></div>
-                  Aprovação de Alçadas
+                  Informação de inadimplência em tempo real
                 </li>
                 <li className="flex items-center gap-3 text-brand-text font-medium">
                   <div className="p-1 rounded-full bg-brand-secondary/20 text-brand-secondary"><Check size={14} /></div>
-                  Dashboard Financeiro
+                  Controle de áreas comuns 
                 </li>
                 <li className="flex items-center gap-3 text-brand-text font-medium">
                   <div className="p-1 rounded-full bg-brand-secondary/20 text-brand-secondary"><Check size={14} /></div>
-                  Notificações Push
+                  Inclusão de comunicados e acompanhamento de documentos
                 </li>
               </ul>
             </div>
             <div className="order-1 lg:order-2 browser-3d group cursor-default relative z-10 w-full">
-              <div className="absolute inset-0 bg-gradient-to-bl from-brand-secondary/30 to-brand-primary/30 blur-[60px] -z-10 rounded-[3rem] transform group-hover:scale-110 transition-transform duration-700 opacity-60"></div>
-              <div className="rounded-[2.5rem] overflow-hidden shadow-2xl shadow-black/50 transform transition-all duration-500 group-hover:scale-[1.02] bg-brand-bg/50 backdrop-blur-sm relative">
-                  <div className="absolute inset-0 bg-gradient-to-tl from-white/5 to-transparent opacity-50 pointer-events-none z-20"></div>
-                  <img
-                    src="https://placehold.co/1600x1000/2c1020/e8d4dc.png?text=App+Mobile+Vouch+(Substituir)"
-                    alt="App Mobile Vouch"
-                    className="w-full h-auto object-cover relative z-10"
-                  />
+              {/* Glow de fundo */}
+              <div className="absolute inset-0 bg-gradient-to-bl from-brand-secondary/40 to-brand-primary/40 blur-[80px] -z-10 rounded-[3rem] transform group-hover:scale-105 transition-transform duration-700 opacity-70"></div>
+              
+               {/* Container Principal da Moldura */}
+              <div className="rounded-[2rem] overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.5)] transform transition-all duration-500 group-hover:scale-[1.01] bg-brand-bg border border-brand-text/10 relative z-20">
+                  
+                   {/* Cabeçalho do Navegador (Bolinhas) */}
+                  <div className="h-8 bg-brand-text/5 flex items-center px-4 border-b border-brand-text/10 relative z-20">
+                    <div className="flex gap-1.5">
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57] border border-[#e0443e]"></div>
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e] border border-[#d89e24]"></div>
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#28c840] border border-[#1aab29]"></div>
+                    </div>
+                  </div>
+
+                  {/* Container da Imagem */}
+                  <div className="relative bg-brand-bg">
+                      <div className="absolute inset-0 bg-gradient-to-tl from-white/5 to-transparent opacity-20 pointer-events-none z-20"></div>
+                      {/* IMAGEM SEM ZOOM FORÇADO */}
+                      <img
+                        src="/sindico.png"
+                        alt="App Mobile Vouch"
+                        className="w-full h-auto object-cover relative z-10"
+                      />
+                  </div>
               </div>
             </div>
           </div>

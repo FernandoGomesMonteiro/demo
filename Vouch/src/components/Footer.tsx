@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { 
-  Instagram, Linkedin, Facebook, Twitter, 
+  Instagram,
   Mail, MapPin,  ArrowUpRight
 } from 'lucide-react';
 
@@ -48,9 +48,7 @@ function Footer() {
             <div className="flex gap-4">
               {[
                 { icon: Instagram, href: "#" },
-                { icon: Linkedin, href: "#" },
-                { icon: Facebook, href: "#" },
-                { icon: Twitter, href: "#" }
+  
               ].map((social, idx) => (
                 <a 
                   key={idx}
@@ -77,8 +75,7 @@ function Footer() {
             <h4 className="text-brand-text font-bold mb-6 text-lg">Empresa</h4>
             <ul className="space-y-4">
               <li><Link to="/sobre" className="text-brand-muted hover:text-brand-primary transition-colors">Sobre Nós</Link></li>
-              <li><Link to="/carreiras" className="text-brand-muted hover:text-brand-primary transition-colors flex items-center gap-2">Carreiras <span className="text-[10px] bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded-full font-bold">Vagas</span></Link></li>
-              <li><Link to="/blog" className="text-brand-muted hover:text-brand-primary transition-colors">Blog</Link></li>
+                  <li><Link to="/suporte" className="text-brand-muted hover:text-brand-primary transition-colors">Nosso suporte</Link></li>
              
             </ul>
           </div>
