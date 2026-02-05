@@ -28,8 +28,8 @@
     --grad-end: 26 16 44;            
 
     /* --- MAPA/CARDS ESCURO --- */
-    --map-fill: #331f57;          
-    --map-stroke: #220b3f;        
+    --map-fill: #444444;          
+    --map-stroke: #535353;        
     --map-active: #4a90e2;        
     --map-glow: rgba(74, 144, 226, 0.6); 
     

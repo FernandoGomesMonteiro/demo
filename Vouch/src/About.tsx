@@ -135,7 +135,7 @@ function About() {
         /* VARIÁVEIS CSS PARA O MAPA - RELATIVO AO TEMA */
         :root {
           /* MODO ESCURO (Padrão) */
-          --map-fill-default: #331f57;       /* Fundo do estado inativo */
+          --map-fill-default: #a9a9a9;       /* Fundo do estado inativo */
           --map-stroke-default: #67526b;     /* Borda do estado inativo */
           --map-presence: #3c2566;           /* Estados com operação (Lilás Claro) */
           --map-active: #4a90e2;             /* Região Ativa (Azul) */
@@ -174,10 +174,7 @@ function About() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[800px] md:h-[800px] bg-brand-primary/10 blur-[100px] md:blur-[150px] rounded-full pointer-events-none -z-10"></div>
 
           <div className="max-w-6xl mx-auto text-center mb-16 md:mb-20">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-xs font-bold uppercase tracking-widest mb-8 backdrop-blur-md animate-fade-in">
-                <span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse"></span>
-                Nossa Filosofia
-              </div>
+          
 
               <h1 className="text-3xl md:text-5xl lg:text-7xl font-black text-brand-text tracking-tight leading-tight mb-8 md:mb-10 animate-fade-in-up">
                 Reescrevendo a <br/>
@@ -188,7 +185,7 @@ function About() {
 
               <div className="space-y-6 text-base md:text-lg lg:text-xl text-brand-muted leading-relaxed font-light animate-fade-in-up animation-delay-200 text-justify">
                 <p>
-                  Somos uma empresa brasileira pioneira no desenvolvimento de ferramentas em nuvem e tecnologias especializadas em Garantia Condominial. Criamos soluções digitais que tornam a operação mais ágil, segura e inteligente, ajudando gestores a centralizar informações, ganhar eficiência e tomar decisões estratégicas com mais confiança.
+                  Somos uma empresa brasileira pioneira no desenvolvimento de ferramentas em nuvem e tecnologias especializadas para Garantidoras Condominiais. Criamos soluções digitais que tornam a operação mais ágil, segura e inteligente, ajudando gestores a centralizar informações, ganhar eficiência e tomar decisões estratégicas com mais confiança.
                 </p>
 
                 <p>
@@ -204,13 +201,9 @@ function About() {
 
           {/* --- SEÇÃO 2: MISSÃO --- */}
           <div className="max-w-4xl mx-auto text-center mb-24">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-md">
-                <span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse"></span>
-                Nossa Missão
-              </div>
-
+          
               <h2 className="text-3xl md:text-5xl font-black text-brand-text tracking-tight leading-tight mb-8">
-                Impulsionar o Futuro
+                  Nossa Missão
               </h2>
               
               <div className="p-8 md:p-12 bg-brand-text/[0.03] border border-brand-text/10 rounded-[2.5rem] relative overflow-hidden group hover:border-brand-primary/30 transition-all duration-500">
@@ -227,12 +220,9 @@ function About() {
           {/* --- SEÇÃO 3: VALORES (GRID MELHORADA) --- */}
           <div className="max-w-6xl mx-auto mb-24">
              <div className="text-center mb-12">
-                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-secondary/10 border border-brand-secondary/20 text-brand-secondary text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-md">
-                    <span className="w-2 h-2 rounded-full bg-brand-secondary animate-pulse"></span>
-                    Nossos Valores
-                  </div>
+           
                   <h2 className="text-3xl md:text-5xl font-black text-brand-text tracking-tight">
-                    O Que Nos Move
+                     Nossos Valores
                   </h2>
              </div>
 
@@ -265,9 +255,9 @@ function About() {
                      <div className="w-12 h-12 rounded-xl bg-[#38c88a]/10 flex items-center justify-center text-[#38c88a] mb-5 group-hover:scale-110 transition-transform">
                         <ShieldCheck size={24} />
                     </div>
-                    <h3 className="text-xl font-bold text-brand-text mb-3">Segurança e confiabilidade</h3>
+                    <h3 className="text-xl font-bold text-brand-text mb-3">Transparência e ética </h3>
                     <p className="text-brand-muted text-sm leading-relaxed">
-                        Tratamos dados e processos com o máximo de responsabilidade, garantindo estabilidade e confiança em cada operação.
+                        Acreditamos em relações claras, honestas e sustentáveis.
                     </p>
                 </div>
 
@@ -287,9 +277,9 @@ function About() {
                      <div className="w-12 h-12 rounded-xl bg-[#4a90e2]/10 flex items-center justify-center text-[#4a90e2] mb-5 group-hover:scale-110 transition-transform">
                         <Handshake size={24} />
                     </div>
-                    <h3 className="text-xl font-bold text-brand-text mb-3">Transparência e ética</h3>
+                    <h3 className="text-xl font-bold text-brand-text mb-3">Segurança e confiabilidade</h3>
                     <p className="text-brand-muted text-sm leading-relaxed">
-                        Acreditamos em relações claras, honestas e sustentáveis.
+                       Tratamos dados e processos com o máximo de responsabilidade, garantindo estabilidade e confiança em cada operação.
                     </p>
                 </div>
 
@@ -300,10 +290,7 @@ function About() {
 
         {/* --- HEADER DO MAPA --- */}
         <div className="text-center mb-12 lg:mb-20 pt-10 border-t border-brand-text/5">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-secondary/10 border border-brand-secondary/20 text-brand-secondary text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-brand-secondary animate-pulse"></span>
-            Ecossistema Vouch
-          </div>
+        
           <h1 className="font-heading text-3xl md:text-6xl font-black text-brand-text tracking-tight">
             Nossa Atuação <span className="text-brand-secondary">Regional</span>
           </h1>
