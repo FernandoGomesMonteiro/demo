@@ -100,13 +100,13 @@ function Footer() {
 
         {/* --- RODAPÉ INFERIOR --- */}
         <div className="border-t border-brand-text/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-brand-muted">
-          <p>&copy; {currentYear} Vouch Tecnologia. Todos os direitos reservados.</p>
-          
+          <p>&copy; {currentYear} Vouch Tecnologia. Todos os direitos reservados - CNPJ 31.523.782/0001-77</p>
+       {/*     
           <div className="flex gap-6">
             <Link to="/privacidade" className="hover:text-brand-primary transition-colors">Privacidade</Link>
             <Link to="/termos" className="hover:text-brand-primary transition-colors">Termos de Uso</Link>
           </div>
-
+*/}
         </div>
 
       </div>

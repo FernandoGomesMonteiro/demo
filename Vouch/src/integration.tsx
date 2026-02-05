@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { 
   Search, ArrowRight,
   Landmark, Building2, MessageCircle,
-  CheckCircle2, Clock, Plus
+  CheckCircle2, Clock, 
 } from 'lucide-react';
 
 // --- DADOS MOCKADOS (CORES DA PALETA APLICADAS) ---
@@ -36,16 +36,15 @@ const integrationsData = [
 
 
 
-  // ERPs e SISTEMAS (Azul #4a90e2)
-  { id: 10, name: "SuperCash", category: "ERPs", status: "coming_soon", icon: Building2, color: "text-[#4a90e2]", bg: "bg-[#4a90e2]/10", desc: "Em breve: Integração nativa." },
-  { id: 11, name: "BI", category: "ERPs", status: "coming_soon", icon: Building2, color: "text-[#4a90e2]", bg: "bg-[#4a90e2]/10", desc: "Em breve: Integração nativa." },
+
+  { id: 13, name: "Gobbip", category: "Ferramentas", status: "active", icon: MessageCircle, color: "text-[#38c88a]", bg: "bg-[#38c88a]/10", desc: "Integração ofical com Whatsapp (Meta)." },
+  { id: 14, name: "Fisko", category: "Ferramentas", status: "active", icon: Building2, color: "text-[#38c88a]", bg: "bg-[#38c88a]/10", desc: "Integração oficial automatizada para emissão de nota fiscal" },
+ { id: 10, name: "SuperCash", category: "Ferramentas", status: "coming_soon", icon: Building2, color: "text-[#38c88a]", bg: "bg-[#38c88a]/10", desc: "Em breve: Integração nativa." },
+  { id: 11, name: "BI", category: "Ferramentas", status: "coming_soon", icon: Building2, color: "text-[#38c88a]", bg: "bg-[#38c88a]/10", desc: "Em breve: Integração nativa." },
   
-  // COMUNICAÇÃO e OUTROS (Verde #38c88a e Roxo #872a8c)
-  { id: 13, name: "Gobbip", category: "Apps", status: "active", icon: MessageCircle, color: "text-[#38c88a]", bg: "bg-[#38c88a]/10", desc: "Envio de mensagens oficiais (Meta) sem risco de bloqueio." },
-  { id: 14, name: "Fisco", category: "Apps", status: "coming_soon", icon: Building2, color: "text-[#4a90e2]", bg: "bg-[#4a90e2]/10", desc: "Em breve: Integração nativa." },
 ];
 
-const categories = ["Todos", "Bancos", "ERPs", "Apps", "Gov"];
+const categories = ["Todos", "Bancos","Ferramentas", ];
 
 function Integrations() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -80,7 +79,7 @@ function Integrations() {
             Integre suas ferramentas <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-[#872a8c] to-[#4a90e2]">favoritas</span>
           </h1>
           <p className="text-lg text-brand-muted max-w-2xl mx-auto">
-            A Vouch é agnóstica. Conectamos sua Garantidora aos principais bancos e sistemas do mercado para você não mudar sua forma de trabalhar.
+            Conectamos sua Garantidora aos principais bancos e sistemas do mercado para você não mudar sua forma de trabalhar.
           </p>
         </div>
 
@@ -168,17 +167,7 @@ function Integrations() {
               </div>
             ))}
 
-            {/* CARD "SOLICITAR NOVA" */}
-            <div className="border-2 border-dashed border-brand-text/10 rounded-[1.5rem] p-6 flex flex-col items-center justify-center text-center hover:border-[#872a8c]/40 hover:bg-[#872a8c]/5 transition-all cursor-pointer group min-h-[250px]">
-              <div className="w-16 h-16 rounded-full bg-brand-text/5 flex items-center justify-center text-brand-muted mb-4 group-hover:bg-[#872a8c] group-hover:text-white transition-colors">
-                <Plus size={32} />
-              </div>
-              <h3 className="text-lg font-bold text-brand-text mb-2">Não encontrou?</h3>
-              <p className="text-sm text-brand-muted mb-4 max-w-xs">
-                Nossa API é aberta. Solicite uma nova integração e nossa equipe analisará a viabilidade.
-              </p>
-              <span className="text-sm font-bold text-[#872a8c] group-hover:underline">Solicitar Integração</span>
-            </div>
+        
 
           </div>
         </div>
@@ -187,11 +176,11 @@ function Integrations() {
         <div className="container mx-auto px-6 mt-24">
             <div className="bg-[#872a8c]/10 border border-[#872a8c]/20 rounded-[2rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="text-center md:text-left">
-                    <h3 className="text-2xl font-bold text-brand-text mb-2">Desenvolvedor?</h3>
-                    <p className="text-brand-muted">Acesse nossa documentação técnica e veja como conectar seu sistema à Vouch.</p>
+                    <h3 className="text-2xl font-bold text-brand-text mb-2">Integre com a Vouch API</h3>
+                    <p className="text-brand-muted">Entre em contato para conheçer os metodos disponíveis.</p>
                 </div>
-                <a href="#" className="whitespace-nowrap px-8 py-3 bg-brand-text text-brand-bg font-bold rounded-xl hover:scale-105 transition-transform flex items-center gap-2">
-                    Ler Documentação API <ArrowRight size={18} />
+                <a href="https://wa.me/554132238793?text=Olá,%20vim%20pelo%20site%20e%20gostaria%20de%20atendimento."className="whitespace-nowrap px-8 py-3 bg-brand-text text-brand-bg font-bold rounded-xl hover:scale-105 transition-transform flex items-center gap-2">
+                    Saiba Mais<ArrowRight size={18} />
                 </a>
             </div>
         </div>
